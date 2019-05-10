@@ -9,21 +9,17 @@ const App = () => {
 
   //ask to get first data
 
-  const getDataFromFixer = data => {
+  const getDataFromFixer = () => {
     const api = new Api();
     const endpoint = keyData.endpoint;
     const key = keyData.key;
-    console.log(endpoint, key);
-    api.getData(endpoint, key).then(res => console.log(res.data)).catch(error => console.log(error));
-  };
-  const showDataFromServer = async () => {
-    const data = await getDataFromFixer();
-    console.log(data);
+    api.getData(endpoint, key).then(res => res.data).then(json => putData(json.rates)).catch(error => console.log(error));
   };
   //useEffect as didMount
-  useEffect(() => {
-    getDataFromFixer();
-  }, []);
+  useEffect(async data => (
+    const result = await getDataFromFixer();
+    console.log(result)
+  ));
 
   return (<div className="App">
     Currency exchange
