@@ -14,7 +14,11 @@ const App = () => {
     const endpoint = keyData.endpoint;
     const key = keyData.key;
     console.log(endpoint, key);
-    api.getData(endpoint, key).then(res => console.log(res));
+    api.getData(endpoint, key).then(res => console.log(res.data)).catch(error => console.log(error));
+  };
+  const showDataFromServer = async () => {
+    const data = await getDataFromFixer();
+    console.log(data);
   };
   //useEffect as didMount
   useEffect(() => {
