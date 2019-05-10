@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from "react";
+import {keyData} from "./components/Api/Apikey";
 import styled from "styled-components";
 import Api from "./components/Api/index";
 import "./App.css";
@@ -9,7 +10,11 @@ const App = () => {
   //ask to get first data
 
   const getDataFromFixer = data => {
-    console.log(typeof Api.getData);
+    const api = new Api();
+    const endpoint = keyData.endpoint;
+    const key = keyData.key;
+    console.log(endpoint, key);
+    api.getData(endpoint, key).then(res => console.log(res));
   };
   //useEffect as didMount
   useEffect(() => {
