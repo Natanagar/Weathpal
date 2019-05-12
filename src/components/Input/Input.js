@@ -21,8 +21,9 @@ export const Input = ({ data, currency }) => {
                 <input id="input" type="text" placeholder="From"></input>
                 </section>
                 <section className="form-field-to">
-                <label htmlFor="input"/>
-                <input id="input" type="text" placeholder="To"></input>
+                <InputAutocomplete
+                currency={currency}
+                />
                 </section>
                 <section>
                     <Button />
