@@ -19,7 +19,7 @@ const stateReducer = (state, changes)=> {
 export const InputAutocomplete = ({ currency }) => {
     const[open, changeOpen] = useState(false);
     const handleChanges = changes => {
-        console.log(changes)
+        console.log(changes.type, changes.inputValue, changes.selectedItem)
         if(changes.hasOwnProperty('isOpen')&& changes.type !== Downshift.stateChangeTypes.blurButton){
             changeOpen({
                 open: changes.isOpen

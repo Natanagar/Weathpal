@@ -2,7 +2,8 @@ import React from "react";
 import { InputAutocomplete } from '../Autocomplete/Autocomplete'
 import FontAwesome from 'react-fontawesome';
 
-import { Button } from '../Button/Button'
+import { Button } from '../Button/Button';
+import { Amount } from '../Autocomplete/Amount'
 import format from 'date-fns/format';
 
 
@@ -17,8 +18,7 @@ export const Input = ({ data, currency }) => {
                 />
                 </section>
                 <section className="form-field-from">
-                <label htmlFor="input"/>
-                <input id="input" type="text" placeholder="From"></input>
+                <Amount />
                 </section>
                 <section className="form-field-to">
                 <InputAutocomplete
