@@ -5,9 +5,13 @@
   "dependencies": {
     "axios": "^0.18.0",
     "date-fns": "^1.30.1",
+    "downshift": "^3.2.10",
+    "match-sorter": "^3.0.0",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
+    "react-fontawesome": "^1.6.1",
     "react-scripts": "3.0.0",
+    "reset-css": "^4.0.1",
     "styled-components": "^4.2.0"
   },
   "scripts": {

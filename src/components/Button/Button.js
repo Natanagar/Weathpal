@@ -5,7 +5,7 @@ const StyledButton = styled.button`
   font-size: 1em;
   margin: 1em;
   padding: 0.25em 1em;
-  border: 2px solid palevioletred;
+  border: 2px solid grey;
   border-radius: 3px;
 
   ${props =>
@@ -14,10 +14,11 @@ const StyledButton = styled.button`
       backround: blue;
     `}
 `;
-export const Button = () => {
+
+export const Button = ({data}) => {
     return(
         <>
-            <StyledButton>Calculate</StyledButton>
+            <StyledButton>{data}</StyledButton>
         </>
     )
     

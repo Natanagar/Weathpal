@@ -1,26 +1,11 @@
+@import '/path/to/reset-css/reset.css';
 .App {
   text-align: center;
 }
-
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 40vmin;
-  pointer-events: none;
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
+#title {
+  text-shadow: 2px 0 0 #fff, -2px 0 0 #fff, 0 2px 0 #fff, 0 -2px 0 #fff, 1px 1px #fff, -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff;
+  -webkit-text-stroke-width: 2px;
+  -webkit-text-stroke-color: #fff;
 }
 
 @keyframes App-logo-spin {
@@ -30,4 +15,31 @@
   to {
     transform: rotate(360deg);
   }
+}
+.form .form-field{
+  display: flex;
+}
+.form-field-amount{
+  font-size: 1.2em;
+  margin: 1em;
+  padding: 0.25em 1em;
+  border: 2px solid grey;
+  border-radius: 3px;
+}
+.form-field-to {
+  font-size: 1.2em;
+  margin: 1em;
+  padding: 0.25em 1em;
+  border: 2px solid grey;
+  border-radius: 3px;
+}
+.form-field-from {
+  font-size: 1.2em;
+  margin: 1em;
+  padding: 0.25em 1em;
+  border: 2px solid grey;
+  border-radius: 3px;
+}
+ul {
+  list-style-type: none;
 }

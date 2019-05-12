@@ -1,7 +1,8 @@
 import React, {useState, useEffect} from "react";
 import format from 'date-fns/format';
-import parse from 'date-fns/parse';
-import {keyData} from "./components/Api/Apikey";
+import { Table } from './components/Table/Table';
+import { Input } from './components/Input/Input';
+import { keyData } from "./components/Api/Apikey";
 import styled from "styled-components";
 import Api from "./components/Api/index";
 import "./App.css";
@@ -33,39 +34,21 @@ const App = () => {
     const result = getDataFromFixer();
   } ,[]);
   
-  return(<div className="App">
-    Currency exchange
+  return(
+    <div className="App">
+    <h1>Currency exchange</h1>
+    <Input 
+    data={data}
+    currency={currency}
+    />
     <label htmlFor="currency"/>
     <form id="currency">
-      <table>
-        <section>Currency {format(data,'DD.MM.YYYY')}</section>
-        <thead>
-            <tr>
-              <th>Currency</th>
-              <th>Rating</th>
-            </tr>
-          </thead>
-          <tbody>
-          {Object.entries(currency).map((item, index)=>
-             <tr key={index}>
-            
-              <td style={{
-                fontFamily: 'Noto Serif TC',
-                textTransform : "uppercase",
-                fontSize: '24px',
-                fontWeight: '800',
-                padding: '20px auto auto'
-              }}> {item[0]}
-              </td>
-              <td>{Math.round(item[1]*100)/100}</td>
-            </tr>
-          )}
-           </tbody>
-        </table>
-  
-      <section>Exchanged by {baseCurrency}</section>
+     <Table 
+     data={data}
+     currency={currency} />
+    <section>Exchanged by {baseCurrency}</section>
     </form>
-  </div>);
+  </div>)
 };
 
 export default App;
