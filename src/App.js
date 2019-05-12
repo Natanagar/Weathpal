@@ -40,6 +40,7 @@ const App = () => {
     <Input 
     data={data}
     currency={currency}
+    getDataFromFixer={getDataFromFixer}
     />
     <label htmlFor="currency"/>
     <form id="currency">

@@ -1,6 +1,10 @@
 
-const example = {AED: 4.127033, AFN: 87.918345, ALL: 123.370417, AMD: 541.743193, ANG: 2.106551}
-export const arrayFromData = data => {
-    const result = Object.keys(data).map(item => item)
-}
-console.log(arrayFromData(example))
+export const createReducer = (initialState, handlers) => function reducer(state = initialState, action) {
+      if (actionHandlers.hasOwnProperty(action.type)) {
+        return actionHandlers[action.type](state, action);
+      } else {
+        return state;
+      }
+    };
+
+

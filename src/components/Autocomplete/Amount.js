@@ -22,11 +22,13 @@ const stateReducer = (state, changes) => {
     return changes
 }
  
-export const Amount = ({ getAmount, changes }) => {
+export const Amount = ({ getAmountFromInput }) => {
     
     return(
         <div>
-            <Downshift stateReducer={stateReducer}  itemToString={itemToString}>
+            <Downshift 
+            onChange={selection=>getAmountFromInput(selection.value)}
+            stateReducer={stateReducer}  itemToString={itemToString}>
         {({
             getInputProps,
             getLabelProps,
