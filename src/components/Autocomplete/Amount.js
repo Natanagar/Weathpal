@@ -14,7 +14,6 @@ const LightButton = styled(()=>Button)`
 const getAmount = value => value ? matchSorter(list, value, {keys : ['value']}) : list
 
 const itemToString = item => item ? item.value : " ";
-console.log(Downshift.stateChangeTypes)
 
 const stateReducer = (state, changes) => {
     if(changes.type === Downshift.stateChangeTypes.blurButton){
@@ -23,7 +22,7 @@ const stateReducer = (state, changes) => {
     return changes
 }
  
-export const Amount = () => {
+export const Amount = ({ getAmount, changes }) => {
     
     return(
         <div>

@@ -16,8 +16,14 @@ const stateReducer = (state, changes)=> {
     return changes
 }
 
-export const InputAutocomplete = ({ currency }) => {
+export const InputAutocomplete = ({ currency, getCurrencyFrom, getCurrencyTo }) => {
+    
+    
+    
     const[open, changeOpen] = useState(false);
+    const[selectedCurrency, changeSelectedCurrency] = useState(null);
+    const[inputCurrency, changeInputCurrency] = useState(null);
+    
     const handleChanges = changes => {
         console.log(changes.type, changes.inputValue, changes.selectedItem)
         if(changes.hasOwnProperty('isOpen')&& changes.type !== Downshift.stateChangeTypes.blurButton){
@@ -25,7 +31,10 @@ export const InputAutocomplete = ({ currency }) => {
                 open: changes.isOpen
             })
         }
-    } 
+        changeSelectedCurrency(changes.selectedItem)
+        changeInputCurrency(changes.inputValue)
+    }
+
     const items = Object.keys(currency).map(item => ({
         value : item,
         id : item.toLowerCase(),
@@ -34,8 +43,11 @@ const getItems = value => value ? matchSorter(items, value, {keys : ['value']}) 
 const itemToString = item => (item ? item.value : '')
 return(
         
-    <div>
-        <Downshift stateReducer={stateReducer} defaultValue='EUR' isOpen={open} onStateChange={handleChanges} itemToString={itemToString}>
+    <div>Selection
+        <Downshift 
+        onChange={selection => getCurrencyTo(selection.value)}
+        onChange={selection => getCurrencyFrom(selection.value)}
+        stateReducer={stateReducer} defaultValue='EUR' isOpen={open} onStateChange={handleChanges} itemToString={itemToString}>
             {({ getLabelProps, 
                 getInputProps,  
                 getMenuProps, 
@@ -61,7 +73,8 @@ return(
                     style: {height : 150, overflow : 'scroll'}
                 })}>
                     {open ? getItems(inputValue).map((item, index) => (
-                        <li {...getItemProps({ 
+                        <li 
+                        {...getItemProps({ 
                             item, 
                             key : item.id, 
                             style : {
