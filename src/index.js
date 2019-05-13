@@ -17,9 +17,9 @@ const reduxLogger = createLogger({ diff: true,
 });
 const store = createStore(combineReducers(reducers), applyMiddleware(thunkMiddleware, logger));
 store.dispatch(dispatch=>{
-  dispatch({type : "HAHA"})
+  dispatch({type : 'FETCH_CURRENCY_PENDING'})
   //
-  dispatch({type : "HEHE"})
+  dispatch({type : 'FETCH_CURRENCY_SUCCESS'})
 })
 
 ReactDOM.render(
