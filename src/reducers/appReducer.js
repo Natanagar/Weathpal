@@ -5,6 +5,8 @@ import {
   FETCH_CURRENCY_PENDING,
   FETCH_CURRENCY_SUCCESS,
   FETCH_CURRENCY_ERROR,
+  AUTOCOMPLETE_SELECTED_CURRENCY_FROM,
+  AUTOCOMPLETE_SELECTED_CURRENCY_TO,
 } from '../actions/index';
 
 const initialState = Object.freeze({
@@ -13,9 +15,13 @@ const initialState = Object.freeze({
   error: null,
   items: [],
   data: [],
-  baseCurrency: null,
+  baseCurrency: 'EUR',
+  selectedCurrency: {
+    from: null,
+    to: null,
+  },
 });
-
+// reducers for App
 const getDataFromApi = (state = initialState, action) => {
   switch (action.type) {
     case FETCH_CURRENCY_START:
@@ -41,17 +47,36 @@ const getDataFromApi = (state = initialState, action) => {
         isLoading: false,
         items: action.payload.items,
         data: action.payload.data,
-        baseCurrency: action.payload.base,
+        currencyFrom: action.payload.base,
       };
     default:
       return state;
   }
 };
+//
+export const addSelectedCurrency = (state = initialState, action) => {
+  switch (action.type) {
+    case 'AUTOCOMPLETE_SELECTED_CURRENCY_FROM':
+      return {
+        ...state,
+        selectedCurrency: { from: action.payload.currency },
+
+      };
+    case 'AUTOCOMPLETE_SELECTED_CURRENCY_TO':
+      return {
+        ...state,
+        selectedCurrency: { to: action.payload.currency },
+
+      };
+    default:
+      return state;
+  }
+};
+
+// root reducer
 const rootReducer = combineReducers({
   getDataFromApi,
+  addSelectedCurrency,
 });
 
-export const getCurrency = state => state.items;
-export const getCurrencyPending = state => state.pending;
-export const getCurrencyError = state => state.error;
 export default rootReducer;

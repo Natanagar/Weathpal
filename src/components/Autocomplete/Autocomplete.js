@@ -17,12 +17,13 @@ const stateReducer = (state, changes)=> {
 }
 
 export const InputAutocomplete = ({ currency, getCurrencyFrom, getCurrencyTo }) => {
+    console.log(getCurrencyTo)
     
     
     
     const[open, changeOpen] = useState(false);
-    const[selectedCurrency, changeSelectedCurrency] = useState(null);
-    const[inputCurrency, changeInputCurrency] = useState(null);
+    //const[selectedCurrency, changeSelectedCurrency] = useState(null);
+    //const[inputCurrency, changeInputCurrency] = useState(null);
     
     const handleChanges = changes => {
         console.log(changes.type, changes.inputValue, changes.selectedItem)
@@ -31,8 +32,8 @@ export const InputAutocomplete = ({ currency, getCurrencyFrom, getCurrencyTo }) 
                 open: changes.isOpen
             })
         }
-        changeSelectedCurrency(changes.selectedItem)
-        changeInputCurrency(changes.inputValue)
+        //changeSelectedCurrency(changes.selectedItem)
+        //changeInputCurrency(changes.inputValue)
     }
 
     const items = Object.keys(currency).map(item => ({
@@ -45,7 +46,7 @@ return(
         
     <div>Selection
         <Downshift 
-        onKeyPress={selection => getCurrencyTo(selection.value)}
+        onClick={selection => getCurrencyTo(selection.value)}
         onKeyPress={selection => getCurrencyFrom(selection.value)}
         stateReducer={stateReducer} defaultValue='EUR' isOpen={open} onStateChange={handleChanges} itemToString={itemToString}>
             {({ getLabelProps, 

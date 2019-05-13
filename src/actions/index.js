@@ -9,16 +9,20 @@ const makeActionCreator = (type, ...argNames) => (...args) => {
   });
   return action;
 };
-
+// actions from App
 export const FETCH_CURRENCY_PENDING = 'FETCH_CURRENCY_PENDING';
 export const FETCH_CURRENCY_START = 'FETCH_CURRENCY_START';
 export const FETCH_CURRENCY_SUCCESS = 'FETCH_CURRENCY_SUCCESS';
 export const FETCH_CURRENCY_ERROR = 'FETCH_CURRENCY_ERROR';
 
+// actions from autocomplete
+export const AUTOCOMPLETE_SELECTED_CURRENCY_FROM = 'AUTOCOMPLETE_SELECTED_CURRENCY_FROM';
+export const AUTOCOMPLETE_SELECTED_CURRENCY_TO = 'AUTOCOMPLETE_SELECTED_CURRENCY_TO';
+
 
 export const fetchCurrencyPending = () => makeActionCreator(FETCH_CURRENCY_PENDING);
 
-
+// action creators for App
 export const fetchCurrencySuccess = ({ items, data, baseCurrency }) => ({
   type: FETCH_CURRENCY_SUCCESS,
   items,
@@ -35,4 +39,15 @@ export const fetchCurrencyError = error => ({
   payload: {
     error,
   },
+});
+
+// action creator for Autocomplete
+export const selectedCurrencyFrom = currency => ({
+  type: AUTOCOMPLETE_SELECTED_CURRENCY_FROM,
+  currency,
+});
+
+export const selectedCurrencyTo = currency => ({
+  type: AUTOCOMPLETE_SELECTED_CURRENCY_TO,
+  currency,
 });

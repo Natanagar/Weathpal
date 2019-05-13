@@ -10,7 +10,8 @@ import { Amount } from '../Autocomplete/Amount';
 import format from 'date-fns/format';
 
 
-export const Input = ({ data, currency }) => {
+export const Input = ({ data, currency, baseCurrency }) => {
+    
     const[currencyFrom, changeCurrencyFrom]= useState(null)
     const[currencyTo, changeCurrencyTo]=useState(null)
     const[amount, changeAmount]=useState(null)
@@ -25,15 +26,18 @@ export const Input = ({ data, currency }) => {
         changeCurrencyFrom(data)
     }
     const getCurrencyTo = (data, event) => {
+        console.log(data)
         changeCurrencyTo(data);
     }
+    console.log(`currency from ${currencyFrom}`)
+    console.log(`currency to ${currencyTo}`)
+    console.log(`amount ${amount}`)
     return(   
         <div className="form">         
             <form className="form-field">
                 <section className="form-field-amount">
                 <InputAutocomplete
                 getCurrencyFrom={getCurrencyFrom}
-                currencyFrom={currencyFrom}
                 currency={currency}
                 />
                 </section>
@@ -46,16 +50,20 @@ export const Input = ({ data, currency }) => {
                 <InputAutocomplete
                 getCurrencyTo={getCurrencyTo}
                 currency={currency}
-                currencyTo={currencyTo}
                 />
                 </section>
                 <section>
+                    {/* need to add some styles to button ex. styled.component */}
                     <Button style={{
                         width: '200px'}}
                     />
                 </section>
             </form>
-            <Footer />
+            <Footer 
+            data={data}
+            baseCurrency={baseCurrency}
+
+            />
         </div>
     )
 }

@@ -35,8 +35,9 @@ export const getCurrencyFromFixer = () => store.dispatch(dispatch => {
     dispatch({type : 'FETCH_CURRENCY_SUCCESS', payload : { 
     items: res.data.rates,
     data: format(res.data.date, 'DD.MM.YYYY'),
-    baseCurrency: res.data.base
-  }}))
+    baseCurrency : res.data.base
+  }
+  }))
   .catch(err => dispatch({type : 'FETCH_CURRENCY_ERROR', payload : err}))
   
 })

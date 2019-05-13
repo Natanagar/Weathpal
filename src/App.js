@@ -9,10 +9,6 @@ import { Input } from './components/Input/Input';
 import { keyData } from "./components/Api/Apikey";
 import { getCurrencyFromFixer } from '../src/index';
 
-
-
-import { fetchCurrencyPending, fetchCurrencySuccess, fetchCurrencyError } from './actions/index'
-
 import styled from "styled-components";
 import Api from "./components/Api/index";
 import "./App.css";
@@ -20,8 +16,7 @@ import "./App.css";
 
  
 
-const App = ({ getCurrency, dispatch, items, data, baseCurrency }) => {
-  console.log(items, data, baseCurrency)
+const App = ({ getCurrency, dispatch, items, data, baseCurrency }) => { 
   
   //useEffect as didMount
   useEffect((dispatch) => {
@@ -30,11 +25,11 @@ const App = ({ getCurrency, dispatch, items, data, baseCurrency }) => {
   
   return(
     <div className="App">
-    <h1>Currency exchange</h1>
+    <h1>Currency exchange by the {data}</h1>
     <Input 
     data={data}
     currency={items}
-    //getDataFromFixer={getDataFromFixer}
+    baseCurrency={baseCurrency}
     />
     <label htmlFor="currency"/>
     <form id="currency">
@@ -48,9 +43,11 @@ const App = ({ getCurrency, dispatch, items, data, baseCurrency }) => {
 }
 
 // which props do we want to inject, given the global store state?
-const mapStateToProps= ({ getDataFromApi }) =>{
+const mapStateToProps= ({ getDataFromApi, addSelectedCurrency }) =>{
+  const{ selectedCurrency } = addSelectedCurrency;
+  const{ from, to } = selectedCurrency;
+  console.log(from, to)
   const { data, items, baseCurrency } = getDataFromApi;
-  console.log(data, items, baseCurrency)
   return{
     data : data,
     items : items,

@@ -1,12 +1,9 @@
 import React from "react";
-import format from 'date-fns/format';
 
 export const Table = ({data, currency}) => {
     console.log(data)
     return(
         <table>
-        <section id="title">
-        Currency {format(data,'DD.MM.YYYY')}</section>
         <thead>
             <tr>
               <th>Currency</th>
