@@ -45,8 +45,8 @@ return(
         
     <div>Selection
         <Downshift 
-        onChange={selection => getCurrencyTo(selection.value)}
-        onChange={selection => getCurrencyFrom(selection.value)}
+        onKeyPress={selection => getCurrencyTo(selection.value)}
+        onKeyPress={selection => getCurrencyFrom(selection.value)}
         stateReducer={stateReducer} defaultValue='EUR' isOpen={open} onStateChange={handleChanges} itemToString={itemToString}>
             {({ getLabelProps, 
                 getInputProps,  

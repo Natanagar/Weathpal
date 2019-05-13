@@ -10,21 +10,19 @@ import { Amount } from '../Autocomplete/Amount';
 import format from 'date-fns/format';
 
 
-export const Input = ({ data, currency, getDataFromFixer }) => {
+export const Input = ({ data, currency }) => {
     const[currencyFrom, changeCurrencyFrom]= useState(null)
     const[currencyTo, changeCurrencyTo]=useState(null)
     const[amount, changeAmount]=useState(null)
     
-    console.log(getDataFromFixer)
     //there are two different function with the same contects. 
     //it made for different autocomplete, get value from different component
 
     const getAmountFromInput = (data, event) => {
-        console.log(data)
-        changeCurrencyFrom(data)
+        changeAmount(data)
     }
     const getCurrencyFrom = (data, event) =>{
-        console.log(data)
+        changeCurrencyFrom(data)
     }
     const getCurrencyTo = (data, event) => {
         changeCurrencyTo(data);

@@ -1,10 +1,8 @@
+import { actionHandlers } from '../../reducers/appReducer';
 
-export const createReducer = (initialState, handlers) => function reducer(state = initialState, action) {
-      if (actionHandlers.hasOwnProperty(action.type)) {
-        return actionHandlers[action.type](state, action);
-      } else {
-        return state;
-      }
-    };
-
-
+export const createReducer = (initialState, actionHandlers) => function reducer(state = initialState, action) {
+  if (actionHandlers.hasOwnProperty(action.type)) {
+    return actionHandlers[action.type](state, action);
+  }
+  return state;
+};

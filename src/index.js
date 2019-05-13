@@ -3,19 +3,24 @@ import ReactDOM from 'react-dom';
 import { createStore, applyMiddleware, combineReducers } from 'redux';
 import logger, { createLogger } from 'redux-logger';
 import { Provider } from 'react-redux';
-import thunk from 'redux-thunk';
+import thunkMiddleware from 'redux-thunk';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 
-import * as reducers from './reducers';
+import * as reducers from './reducers/appReducer';
 
 const reduxLogger = createLogger({ diff: true,
     predicate: (state, action) => {
     return action.type.startsWith('fooberry/player/');
   }
 });
-const store = createStore(combineReducers(reducers), applyMiddleware(thunk, logger));
+const store = createStore(combineReducers(reducers), applyMiddleware(thunkMiddleware, logger));
+store.dispatch(dispatch=>{
+  dispatch({type : "HAHA"})
+  //
+  dispatch({type : "HEHE"})
+})
 
 ReactDOM.render(
     <Provider store={store}>
