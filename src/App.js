@@ -1,36 +1,32 @@
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, useReducer} from "react";
 import format from 'date-fns/format';
 import { connect } from 'react-redux';
+import { createReducer } from './components/utils/utils'
+
 import { Table } from './components/Table/Table';
 import { Input } from './components/Input/Input';
 import { keyData } from "./components/Api/Apikey";
-import { getCurrencyFromFixer } from './actions/index'
+import { getCurrencyFromFixer } from './actions/index';
+//import { fetchCurrencyPending, fetchCurrencySuccess, fetchCurrencyError } from './actions/index'
+
 import styled from "styled-components";
 import Api from "./components/Api/index";
 import "./App.css";
 
-const state = store.getState();
-const mapDispatchToProps = (dispatch) => {
-  getCurrencyFromFixer
-}
+//console.log(fetchCurrencyPending, fetchCurrencySuccess, fetchCurrencyError) 
+ 
 
-// which props do we want to inject, given the global store state?
-const mapStateToProps=(state)=>{
-  return {};
-}
-  
-
-const App = ({ store }) => {
+const App = ({ dispatch, getCurrency }) => {
   const [currency, putCurrency] = useState([]);
   const [data, changeData] = useState([]);
   const [baseCurrency, changeBaseCurrency] = useState(null)
 
   //ask to get first data
-
+ 
   
   //useEffect as didMount
-  useEffect(data => {
-    const result = (getCurrencyFromFixer());
+  useEffect((dispatch) => {
+    const result = getCurrency();
   } ,[]);
   
   return(
@@ -48,10 +44,22 @@ const App = ({ store }) => {
      currency={currency} />
     <section>Exchanged by {baseCurrency}</section>
     </form>
-  </div>)
-};
-  
+  </div>
+  )
+}
 
+// which props do we want to inject, given the global store state?
+const mapStateToProps=(state)=>{
+  const { currency} = state;
+  return{
+    listOfCurrency : currency
+  }
+}
+
+//const state = store.getState();
+const mapDispatchToProps = dispatch => ({
+    getCurrency : (url)=>dispatch(getCurrencyFromFixer(url))
+  })
 
 export default connect(null, mapDispatchToProps)(App);
 

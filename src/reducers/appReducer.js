@@ -1,6 +1,6 @@
-import { propOr, identity } from 'ramda';
+import { combineReducers } from 'redux';
 import { createReducer } from '../components/utils/utils';
-import * as types from '../actions/index';
+import { FETCH_CURRENCY_PENDING, FETCH_CURRENCY_SUCCESS, FETCH_CURRENCY_ERROR } from '../actions/index';
 
 const initialState = Object.freeze({
   pending: false,
@@ -10,18 +10,35 @@ const initialState = Object.freeze({
   data: [],
   baseCurrency: null,
 });
-export const actionHandlers = {
-  FETCH_CURRENCY_PENDING: (state, action) => Object.assign({}, state, { pending: true, isLoading: action.bool }),
-  FETCH_CURRENCY_SUCCESS: (state, action) => Object.assign({}, state, { currency: action.result, isLoading: action.bool }),
-  FETCH_CURRENCY_ERROR: (state, action) => Object.assign({}, state, { error: action.error }),
+
+const getDataFromApi = (state = initialState, action) => {
+  switch (action.type) {
+    case FETCH_CURRENCY_PENDING:
+      return {
+        ...state,
+        pending: true,
+      };
+    case FETCH_CURRENCY_ERROR:
+      return {
+        ...state,
+        pending: false,
+        isLoading: true,
+        error: action.error,
+      };
+    case FETCH_CURRENCY_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        error: null,
+        items: action.currency,
+        lastUpdate: action.data,
+      };
+    default:
+      return state;
+  }
 };
-export const data = (initialState, actionHandlers) => (state = initialState, action) => propOr(identity, action.type, actionHandlers)(state, action);
-console.log(data(initialState, actionHandlers));
+const rootReducer = combineReducers({
+  getDataFromApi,
+});
 
-/* export const appReducer = createReducer(initialState, {
-  [types.FETCH_DATA](state, { payload: { map, polyLine } }) { return { ...state, map, polyLine }; },
-
-  [types.SET_LOADING](state) { return { ...state, loading: false }; },
-
-  [types.SET_SNAPBAR](state, { payload }) { return { ...state, snackBar: payload }; },
-}); */
+export default rootReducer;

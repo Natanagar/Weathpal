@@ -6,20 +6,33 @@ import { Provider } from 'react-redux';
 import thunkMiddleware from 'redux-thunk';
 import './index.css';
 import App from './App';
+import Api from './components/Api/index';
+import { keyData } from "./components/Api/Apikey";
+
+
 import * as serviceWorker from './serviceWorker';
 
-import * as reducers from './reducers/appReducer';
+import reducer from './reducers/appReducer';
 
-const reduxLogger = createLogger({ diff: true,
+const reduxLogger = createLogger({ 
+    diff: true,
     predicate: (state, action) => {
     return action.type.startsWith('fooberry/player/');
   }
 });
-const store = createStore(combineReducers(reducers), applyMiddleware(thunkMiddleware, logger));
-store.dispatch(dispatch=>{
+const store = createStore(reducer, applyMiddleware(thunkMiddleware, logger));
+store.subscribe(()=>{
+  console.log('store changed', store.getState()) 
+})
+store.dispatch(dispatch => {
   dispatch({type : 'FETCH_CURRENCY_PENDING'})
-  //
-  dispatch({type : 'FETCH_CURRENCY_SUCCESS'})
+  const api = new Api();
+  const endpoint = keyData.endpoint;
+  const key = keyData.key;
+  api.getData(endpoint, key)
+  .then(res => dispatch({type : 'FETCH_CURRENCY_SUCCESS', payload : res.data}))
+  .catch(err => dispatch({type : 'FETCH_CURRENCY_ERROR', payload : err}))
+  
 })
 
 ReactDOM.render(
