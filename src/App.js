@@ -8,7 +8,7 @@ import { Table } from './components/Table/Table';
 import { Input } from './components/Input/Input';
 import { keyData } from "./components/Api/Apikey";
 import { getCurrencyFromFixer } from '../src/index';
-import { getCurrency, getCurrencyPending, getCurrencyError } from './reducers/appReducer' 
+
 
 
 import { fetchCurrencyPending, fetchCurrencySuccess, fetchCurrencyError } from './actions/index'
@@ -20,14 +20,8 @@ import "./App.css";
 
  
 
-const App = ({ getCurrency, dispatch }) => {
-  console.log(dispatch)
-  const [currency, putCurrency] = useState([]);
-  const [data, changeData] = useState([]);
-  const [baseCurrency, changeBaseCurrency] = useState(null)
-
-  //ask to get first data
- 
+const App = ({ getCurrency, dispatch, items, data, baseCurrency }) => {
+  console.log(items, data, baseCurrency)
   
   //useEffect as didMount
   useEffect((dispatch) => {
@@ -39,14 +33,14 @@ const App = ({ getCurrency, dispatch }) => {
     <h1>Currency exchange</h1>
     <Input 
     data={data}
-    currency={currency}
+    currency={items}
     //getDataFromFixer={getDataFromFixer}
     />
     <label htmlFor="currency"/>
     <form id="currency">
      <Table 
      data={data}
-     currency={currency} />
+     currency={items} />
     <section>Exchanged by {baseCurrency}</section>
     </form>
   </div>
@@ -54,11 +48,15 @@ const App = ({ getCurrency, dispatch }) => {
 }
 
 // which props do we want to inject, given the global store state?
-const mapStateToProps= state =>({
-  error : getCurrencyError(state),
-  items : getCurrency(state),
-  pending : getCurrencyPending(state)
-})
+const mapStateToProps= ({ getDataFromApi }) =>{
+  const { data, items, baseCurrency } = getDataFromApi;
+  console.log(data, items, baseCurrency)
+  return{
+    data : data,
+    items : items,
+    baseCurrency : baseCurrency
+  }
+}
 
 //const state = store.getState();
 const mapDispatchToProps = dispatch => ({

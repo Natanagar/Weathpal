@@ -19,10 +19,11 @@ export const FETCH_CURRENCY_ERROR = 'FETCH_CURRENCY_ERROR';
 export const fetchCurrencyPending = () => makeActionCreator(FETCH_CURRENCY_PENDING);
 
 
-export const fetchCurrencySuccess = ({ items, data }) => ({
+export const fetchCurrencySuccess = ({ items, data, baseCurrency }) => ({
   type: FETCH_CURRENCY_SUCCESS,
   items,
   data,
+  baseCurrency,
 });
 export const fetchStart = () => ({
   type: FETCH_CURRENCY_START,

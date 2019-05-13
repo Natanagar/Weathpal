@@ -31,7 +31,8 @@ export const getCurrencyFromFixer = () => store.dispatch(dispatch => {
   const endpoint = keyData.endpoint;
   const key = keyData.key;
   api.getData(endpoint, key)
-  .then(res => dispatch({type : 'FETCH_CURRENCY_SUCCESS', payload : { 
+  .then(res => 
+    dispatch({type : 'FETCH_CURRENCY_SUCCESS', payload : { 
     items: res.data.rates,
     data: format(res.data.date, 'DD.MM.YYYY'),
     baseCurrency: res.data.base
