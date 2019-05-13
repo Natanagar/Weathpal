@@ -10,22 +10,8 @@ const makeActionCreator = (type, ...argNames) => (...args) => {
   return action;
 };
 
-export const getCurrencyFromFixer = (dispatch) => {
-  dispatch(fetchCurrencyPending());
-  const api = new Api();
-  const endpoint = keyData.endpoint;
-  const key = keyData.key;
-  api.getData(endpoint, key)
-    .then((res) => {
-      dispatch(fetchCurrencySuccess(res));
-    })
-    .catch((error) => {
-      dispatch(fetchCurrencyError({ type: 'FETCH_CURRENCY_ERROR', payload: error }));
-    });
-};
-
-
 export const FETCH_CURRENCY_PENDING = 'FETCH_CURRENCY_PENDING';
+export const FETCH_CURRENCY_START = 'FETCH_CURRENCY_START';
 export const FETCH_CURRENCY_SUCCESS = 'FETCH_CURRENCY_SUCCESS';
 export const FETCH_CURRENCY_ERROR = 'FETCH_CURRENCY_ERROR';
 
@@ -33,11 +19,19 @@ export const FETCH_CURRENCY_ERROR = 'FETCH_CURRENCY_ERROR';
 export const fetchCurrencyPending = () => makeActionCreator(FETCH_CURRENCY_PENDING);
 
 
-export const fetchCurrencySuccess = response => ({
+export const fetchCurrencySuccess = ({ items, data }) => ({
   type: FETCH_CURRENCY_SUCCESS,
-  currency: response.data.rates,
-  data: format(response.data.date, 'DD.MM.YYYY'),
+  items,
+  data,
+});
+export const fetchStart = () => ({
+  type: FETCH_CURRENCY_START,
 });
 
-export const fetchCurrencyError = error => makeActionCreator(FETCH_CURRENCY_ERROR, error);
-console.log(fetchCurrencyPending, fetchCurrencySuccess, fetchCurrencyError);
+
+export const fetchCurrencyError = error => ({
+  type: FETCH_CURRENCY_ERROR,
+  payload: {
+    error,
+  },
+});
