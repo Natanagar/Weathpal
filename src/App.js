@@ -44,7 +44,7 @@ const App = ({ getCurrency, dispatch, items, data, baseCurrency, amount }) => {
 // which props do we want to inject, given the global store state?
 const mapStateToProps= ({ getDataFromApi, addSelectedCurrency }) =>{
   const{ from, to, amount } = addSelectedCurrency;
-  console.log(amount)
+  console.log(amount, to)
   const { data, items, baseCurrency } = getDataFromApi;
   return{
     data : data,

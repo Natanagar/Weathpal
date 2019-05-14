@@ -1,5 +1,5 @@
 import {
- AUTOCOMPLETE_SELECTED_CURRENCY_FROM,
+  AUTOCOMPLETE_SELECTED_CURRENCY_FROM,
   AUTOCOMPLETE_SELECTED_CURRENCY_TO,
   AUTOCOMPLETE_SELECTED_AMOUNT,
   AUTOCOMPLETE_EXCHANGE_FETCHING_START,
@@ -21,13 +21,14 @@ export const addSelectedCurrency = (state = initialState, action) => {
     case AUTOCOMPLETE_SELECTED_CURRENCY_FROM:
       return {
         ...state,
-        from: action.payload.currency,
+        from: action.from,
 
       };
     case AUTOCOMPLETE_SELECTED_CURRENCY_TO:
+      console.log(action);
       return {
         ...state,
-        to: action.payload.currency,
+        to: action.to,
 
       };
     case AUTOCOMPLETE_SELECTED_AMOUNT:

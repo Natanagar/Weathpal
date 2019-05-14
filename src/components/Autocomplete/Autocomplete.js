@@ -10,18 +10,19 @@ const GrayButton = styled(()=>Button)`
   border-color: #13263a;
 `
 const stateReducer = (state, changes)=> {
+    console.log(state)
+    console.log(changes)
     if(changes.type === Downshift.stateChangeTypes.blurButton){
         return {...changes, isOpen : true }
     }
     return changes
 }
 
-export const InputAutocomplete = ({ currency, getCurrencyFrom, getCurrencyTo }) => {
+export const InputAutocomplete = ({ currency, getFrom, getTo }) => {
+    console.log(getFrom)
     
     
     const[open, changeOpen] = useState(false);
-    //const[selectedCurrency, changeSelectedCurrency] = useState(null);
-    //const[inputCurrency, changeInputCurrency] = useState(null);
     
     const handleChanges = changes => {
         console.log(changes.type, changes.inputValue, changes.selectedItem)
@@ -30,8 +31,6 @@ export const InputAutocomplete = ({ currency, getCurrencyFrom, getCurrencyTo }) 
                 open: changes.isOpen
             })
         }
-        //changeSelectedCurrency(changes.selectedItem)
-        //changeInputCurrency(changes.inputValue)
     }
 
     const items = Object.keys(currency).map(item => ({
@@ -44,8 +43,8 @@ return(
         
     <div>Selection
         <Downshift 
-        onClick={selection => console.log(selection.value)}
-        onKeyPress={selection => getCurrencyFrom(selection.value)}
+        //onKeyPress={(selection, event) => getFrom(selection.value)}
+        onChange={(selection, event) => getTo(selection.value)}
         stateReducer={stateReducer} defaultValue='EUR' isOpen={open} onStateChange={handleChanges} itemToString={itemToString}>
             {({ getLabelProps, 
                 getInputProps,  
@@ -53,7 +52,8 @@ return(
                 selectItem,
                 getItemProps,
                 getToggleButtonProps,
-               //we can put to state or useState
+               
+                //we can put to state or useState
                 clearSelection,
 
                 inputValue,
