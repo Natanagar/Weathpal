@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import { InputAutocomplete } from '../Autocomplete/Autocomplete'
+import { InputAutocomplete } from '../Autocomplete/Autocomplete';
 import FontAwesome from 'react-fontawesome';
+import { store } from '../../index';
 
 import Api from '../Api/index';
 import { keyData } from '../Api/Apikey';
@@ -10,7 +11,8 @@ import { Amount } from '../Autocomplete/Amount';
 import format from 'date-fns/format';
 
 
-export const Input = ({ data, currency, baseCurrency }) => {
+
+const Input = ({ data, currency, baseCurrency, dispatch }) => {
     
     const[currencyFrom, changeCurrencyFrom]= useState(null)
     const[currencyTo, changeCurrencyTo]=useState(null)
@@ -19,19 +21,19 @@ export const Input = ({ data, currency, baseCurrency }) => {
     //there are two different function with the same contects. 
     //it made for different autocomplete, get value from different component
 
-    const getAmountFromInput = (data, event) => {
+    const getAmountFromInput = (amount, event, dispatch) => {
+        store.dispatch({ type : 'AUTOCOMPLETE_SELECTED_AMOUNT', amount })
         changeAmount(data)
     }
     const getCurrencyFrom = (data, event) =>{
         changeCurrencyFrom(data)
     }
     const getCurrencyTo = (data, event) => {
-        console.log(data)
         changeCurrencyTo(data);
     }
     console.log(`currency from ${currencyFrom}`)
     console.log(`currency to ${currencyTo}`)
-    console.log(`amount ${amount}`)
+    
     return(   
         <div className="form">         
             <form className="form-field">
@@ -67,3 +69,5 @@ export const Input = ({ data, currency, baseCurrency }) => {
         </div>
     )
 }
+
+export default Input;

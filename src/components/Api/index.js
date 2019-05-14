@@ -12,5 +12,19 @@ class Api {
   getData = async (endpoint, key) => {
     return await axios.get(`${endpoint}/latest?access_key=${key}`);
   };
+  //https://data.fixer.io/api/convert
+    //? access_key = API_KEY
+    //& from = GBP
+    //& to = JPY
+    //& amount = 25
+  getCrossCurrency = async (endpoint, key, {from, to, amount} ) => {
+    return await axios.get(`${endpoint}/convert`, {
+      params: {
+        '?access_key' : {key},
+        '&from' : {from},
+        '&to' : {to},
+        '&amount' : {amount}
+      }
+  })}
 }
 export default Api;

@@ -17,8 +17,6 @@ const stateReducer = (state, changes)=> {
 }
 
 export const InputAutocomplete = ({ currency, getCurrencyFrom, getCurrencyTo }) => {
-    console.log(getCurrencyTo)
-    
     
     
     const[open, changeOpen] = useState(false);
@@ -46,7 +44,7 @@ return(
         
     <div>Selection
         <Downshift 
-        onClick={selection => getCurrencyTo(selection.value)}
+        onClick={selection => console.log(selection.value)}
         onKeyPress={selection => getCurrencyFrom(selection.value)}
         stateReducer={stateReducer} defaultValue='EUR' isOpen={open} onStateChange={handleChanges} itemToString={itemToString}>
             {({ getLabelProps, 

@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { createStore, applyMiddleware } from 'redux';
-import logger, { createLogger } from 'redux-logger';
+import logger from 'redux-logger';
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
 import format from 'date-fns/format';
@@ -15,15 +15,8 @@ import * as serviceWorker from './serviceWorker';
 
 import reducer from './reducers/appReducer';
 
-const reduxLogger = createLogger({ 
-    diff: true
-});
-
-const store = createStore(reducer, applyMiddleware(thunk,logger));
-store.subscribe(()=>{
-  console.log('store changed', store.getState()) 
-})
-
+export const store = createStore(reducer, applyMiddleware(thunk,logger));
+//for testing in browser
 window.store = store;
 export const getCurrencyFromFixer = () => store.dispatch(dispatch => {
   dispatch({type : 'FETCH_CURRENCY_PENDING'})
@@ -40,6 +33,15 @@ export const getCurrencyFromFixer = () => store.dispatch(dispatch => {
   }))
   .catch(err => dispatch({type : 'FETCH_CURRENCY_ERROR', payload : err}))
   
+})
+export const getCrossCourseFromFixer = (from, to, amount) => store.dispatch(dispatch => {
+  console.log(from, to, amount)
+  const api = new Api();
+  const endpoint = keyData.endpoint;
+  const key = keyData.key;
+  api.getCrossCurrency(endpoint, key , {from, to, amount})
+  .then(res => console.log(res.data))
+  .catch(err => console.log(err))
 })
 
 ReactDOM.render(

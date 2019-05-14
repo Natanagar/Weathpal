@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux';
+import { addSelectedCurrency } from './AutocompleteReducers';
 import { createReducer } from '../components/utils/utils';
 import {
   FETCH_CURRENCY_START,
@@ -7,6 +8,7 @@ import {
   FETCH_CURRENCY_ERROR,
   AUTOCOMPLETE_SELECTED_CURRENCY_FROM,
   AUTOCOMPLETE_SELECTED_CURRENCY_TO,
+  AUTOCOMPLETE_SELECTED_AMOUNT,
 } from '../actions/index';
 
 const initialState = Object.freeze({
@@ -16,9 +18,10 @@ const initialState = Object.freeze({
   items: [],
   data: [],
   baseCurrency: 'EUR',
-  selectedCurrency: {
+  exchange: {
     from: null,
     to: null,
+    amount: null,
   },
 });
 // reducers for App
@@ -54,24 +57,7 @@ const getDataFromApi = (state = initialState, action) => {
   }
 };
 //
-export const addSelectedCurrency = (state = initialState, action) => {
-  switch (action.type) {
-    case 'AUTOCOMPLETE_SELECTED_CURRENCY_FROM':
-      return {
-        ...state,
-        selectedCurrency: { from: action.payload.currency },
 
-      };
-    case 'AUTOCOMPLETE_SELECTED_CURRENCY_TO':
-      return {
-        ...state,
-        selectedCurrency: { to: action.payload.currency },
-
-      };
-    default:
-      return state;
-  }
-};
 
 // root reducer
 const rootReducer = combineReducers({

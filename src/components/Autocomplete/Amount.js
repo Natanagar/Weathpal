@@ -5,8 +5,6 @@ import styled from "styled-components";
 import { Button } from '../Button/Button';
 import { list } from '../Data/Amount'
 
-list.map(item=>(console.log(item.value)))
-
 const LightButton = styled(()=>Button)`
     color: tomato;
     border-color: tomato;

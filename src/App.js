@@ -1,11 +1,10 @@
-import React, {useState, useEffect, useReducer} from "react";
+import React, {useEffect} from "react";
 import format from 'date-fns/format';
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux'
 import { createReducer } from './components/utils/utils'
 
 import { Table } from './components/Table/Table';
-import { Input } from './components/Input/Input';
+import Input from './components/Input/Input';
 import { keyData } from "./components/Api/Apikey";
 import { getCurrencyFromFixer } from '../src/index';
 
@@ -16,7 +15,7 @@ import "./App.css";
 
  
 
-const App = ({ getCurrency, dispatch, items, data, baseCurrency }) => { 
+const App = ({ getCurrency, dispatch, items, data, baseCurrency, amount }) => { 
   
   //useEffect as didMount
   useEffect((dispatch) => {
@@ -44,14 +43,14 @@ const App = ({ getCurrency, dispatch, items, data, baseCurrency }) => {
 
 // which props do we want to inject, given the global store state?
 const mapStateToProps= ({ getDataFromApi, addSelectedCurrency }) =>{
-  const{ selectedCurrency } = addSelectedCurrency;
-  const{ from, to } = selectedCurrency;
-  console.log(from, to)
+  const{ from, to, amount } = addSelectedCurrency;
+  console.log(amount)
   const { data, items, baseCurrency } = getDataFromApi;
   return{
     data : data,
     items : items,
-    baseCurrency : baseCurrency
+    baseCurrency : baseCurrency,
+    amount : amount
   }
 }
 
