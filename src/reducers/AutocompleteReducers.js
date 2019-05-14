@@ -21,11 +21,11 @@ export const addSelectedCurrency = (state = initialState, action) => {
     case AUTOCOMPLETE_SELECTED_CURRENCY_FROM:
       return {
         ...state,
-        from: action.from,
+        from: action.to,
 
       };
     case AUTOCOMPLETE_SELECTED_CURRENCY_TO:
-      console.log(action);
+
       return {
         ...state,
         to: action.to,

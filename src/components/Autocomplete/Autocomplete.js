@@ -18,13 +18,19 @@ const stateReducer = (state, changes)=> {
 }
 
 export const InputAutocomplete = ({ currency, getFrom, getTo, from }) => {
-    
-    
+
     const[open, changeOpen] = useState(false);
     
-    const handleChanges = (changes, from) => {
-        console.log(from)
-        console.log(changes.type, changes.inputValue, changes.selectedItem)
+    const handleChanges = (changes) => {
+        
+        if(changes.type === '__autocomplete_click_item__'){
+            const to = changes.selectedItem.value;
+            if(!from ){
+                store.dispatch({ type: 'AUTOCOMPLETE_SELECTED_CURRENCY_TO', to })
+            } else  { store.dispatch({ type: 'AUTOCOMPLETE_SELECTED_CURRENCY_FROM', to })}  
+        }
+        
+    
         if(changes.hasOwnProperty('isOpen')&& changes.type !== Downshift.stateChangeTypes.blurButton){
             changeOpen({
                 open: changes.isOpen
@@ -42,7 +48,7 @@ return(
         
     <div>Selection
         <Downshift 
-        onChange={(selection, event) => console.log(selection.value)}
+        //onChange={(selection, event) => getTo(selection.value, from)}
         stateReducer={stateReducer} defaultValue='EUR' isOpen={open} onStateChange={handleChanges} itemToString={itemToString}>
             {({ getLabelProps, 
                 getInputProps,  
@@ -57,7 +63,8 @@ return(
                 inputValue,
                 selectedItem,
                 highlightedIndex,
-                isOpen
+                isOpen,
+                from
                 }) => <div>
             <label htmlFor="input"{...getLabelProps()}>Choose currency</label>
                 <input 
