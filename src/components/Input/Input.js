@@ -41,7 +41,7 @@ const Input = ({ data, currency, baseCurrency, dispatch, getExchange }) => {
             <form className="form-field">
                 <section className="form-field-amount">
                 <InputAutocomplete
-                from="true"
+                from={true}
                 getFrom={getFrom}
                 currency={currency}
                 />
@@ -53,7 +53,7 @@ const Input = ({ data, currency, baseCurrency, dispatch, getExchange }) => {
                 </section>
                 <section className="form-field-to">
                 <InputAutocomplete
-                from="false"
+                from={false}
                 getTo={getTo}
                 currency={currency}
                 />

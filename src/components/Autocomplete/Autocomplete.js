@@ -2,7 +2,8 @@ import React, {useState, useEffect} from "react";
 import Downshift from 'downshift';
 import matchSorter from "match-sorter";
 import styled from "styled-components";
-import { Button } from '../Button/Button'
+import { Button } from '../Button/Button';
+import { store } from '../../index';
 import { arrayFromData } from '../utils/utils'
 
 const GrayButton = styled(()=>Button)`
@@ -10,21 +11,19 @@ const GrayButton = styled(()=>Button)`
   border-color: #13263a;
 `
 const stateReducer = (state, changes)=> {
-    console.log(state)
-    console.log(changes)
     if(changes.type === Downshift.stateChangeTypes.blurButton){
         return {...changes, isOpen : true }
     }
     return changes
 }
 
-export const InputAutocomplete = ({ currency, getFrom, getTo }) => {
-    console.log(getFrom)
+export const InputAutocomplete = ({ currency, getFrom, getTo, from }) => {
     
     
     const[open, changeOpen] = useState(false);
     
-    const handleChanges = changes => {
+    const handleChanges = (changes, from) => {
+        console.log(from)
         console.log(changes.type, changes.inputValue, changes.selectedItem)
         if(changes.hasOwnProperty('isOpen')&& changes.type !== Downshift.stateChangeTypes.blurButton){
             changeOpen({
@@ -43,8 +42,7 @@ return(
         
     <div>Selection
         <Downshift 
-        //onKeyPress={(selection, event) => getFrom(selection.value)}
-        onChange={(selection, event) => getTo(selection.value)}
+        onChange={(selection, event) => console.log(selection.value)}
         stateReducer={stateReducer} defaultValue='EUR' isOpen={open} onStateChange={handleChanges} itemToString={itemToString}>
             {({ getLabelProps, 
                 getInputProps,  
