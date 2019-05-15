@@ -9,6 +9,8 @@ import './index.css';
 import App from './App';
 import Api from './components/Api/index';
 import { keyData } from "./components/Api/Apikey";
+import { fetchCurrencyByDate } from './actions/index'
+
 
 
 import * as serviceWorker from './serviceWorker';
@@ -18,6 +20,8 @@ import reducer from './reducers/appReducer';
 export const store = createStore(reducer, applyMiddleware(thunk,logger));
 //for testing in browser
 window.store = store;
+
+
 export const getCurrencyFromFixer = () => store.dispatch(dispatch => {
   dispatch({type : 'FETCH_CURRENCY_PENDING'})
   const api = new Api();
@@ -34,15 +38,33 @@ export const getCurrencyFromFixer = () => store.dispatch(dispatch => {
   .catch(err => dispatch({type : 'FETCH_CURRENCY_ERROR', payload : err}))
   
 })
-export const getCrossCourseFromFixer = (from, to, amount) => store.dispatch(dispatch => {
-  console.log(from, to, amount)
+export const getCrossCourseFromFixer = store.dispatch((from, to, amount) => {
+  return dispatch => {
   const api = new Api();
   const endpoint = keyData.endpoint;
   const key = keyData.key;
   api.getCrossCurrency(endpoint, key , {from, to, amount})
   .then(res => console.log(res.data))
-  .catch(err => console.log(err))
-})
+  .catch(err => console.log(err.type, err.info))
+}})
+
+export const getCurrencyFromFixerByDate = store.dispatch((date) => {
+  return dispatch => {
+    dispatch({type : 'INPUT_FETCH_START'})
+    const date = store.getState().getDataByDate.date;
+    console.log(date)
+    const api = new Api();
+    const endpoint = keyData.endpoint;
+    const key = keyData.key;
+    api.getCurrencyByDate(endpoint,key, date)
+    .then(res => 
+      dispatch({type : 'INPUT_FETCH_SUCCESS', payload : res.data.rates}))
+    .catch(error => dispatch({type : 'INPUT_FETCH_ERROR', payload : error})) 
+  }
+}) 
+
+
+
 
 ReactDOM.render(
     <Provider store={store}>

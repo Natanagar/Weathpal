@@ -1,21 +1,19 @@
 import React, {useEffect} from "react";
-import format from 'date-fns/format';
 import { connect } from 'react-redux';
-import { createReducer } from './components/utils/utils'
 
 import { Table } from './components/Table/Table';
 import Input from './components/Input/Input';
-import { keyData } from "./components/Api/Apikey";
 import { getCurrencyFromFixer } from '../src/index';
 
-import styled from "styled-components";
-import Api from "./components/Api/index";
 import "./App.css";
 
 
  
 
-const App = ({ getCurrency, dispatch, items, data, baseCurrency, amount }) => { 
+const App = ({ getCurrency, dispatch, items, 
+  data, baseCurrency, amount, 
+  dateByConvert, currencyByDate }) => { 
+  console.log(dateByConvert, currencyByDate);
   
   //useEffect as didMount
   useEffect((dispatch) => {
@@ -32,7 +30,9 @@ const App = ({ getCurrency, dispatch, items, data, baseCurrency, amount }) => {
     />
     <label htmlFor="currency"/>
     <form id="currency">
-     <Table 
+     <Table
+     dateByConvert={dateByConvert}
+     currencyByDate={currencyByDate}
      data={data}
      currency={items} />
     <section>Exchanged by {baseCurrency}</section>
@@ -42,11 +42,14 @@ const App = ({ getCurrency, dispatch, items, data, baseCurrency, amount }) => {
 }
 
 // which props do we want to inject, given the global store state?
-const mapStateToProps= ({ getDataFromApi, addSelectedCurrency }) =>{
+//we observe addSelectedCurrency reducer in input
+const mapStateToProps= ({ getDataFromApi, addSelectedCurrency, getDataByDate }) =>{
   const{ from, to, amount } = addSelectedCurrency;
-  console.log(amount, to)
+  const { date, currencyByDate, startFetching } = getDataByDate;
   const { data, items, baseCurrency } = getDataFromApi;
   return{
+    dateByConvert : date,
+    currencyByDate : currencyByDate,
     data : data,
     items : items,
     baseCurrency : baseCurrency,

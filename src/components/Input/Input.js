@@ -1,25 +1,36 @@
-import React, { useState } from "react";
+import React from "react";
 import { connect } from 'react-redux';
 import { InputAutocomplete } from '../Autocomplete/Autocomplete';
-import FontAwesome from 'react-fontawesome';
 import { store } from '../../index';
-import { getCrossCourseFromFixer } from '../../index'
-
-import Api from '../Api/index';
-import { keyData } from '../Api/Apikey';
+import { getCrossCourseFromFixer, getCurrencyFromFixerByDate } from '../../index';
 import { Button } from '../Button/Button';
 import { Footer } from '../Table/Footer'
 import { Amount } from '../Autocomplete/Amount';
 import format from 'date-fns/format';
 
 
+ 
+const Input = ({ data, currency, baseCurrency, 
+    dispatch, getExchange, from, 
+    to, amount, getByDate }) => {
+        if(typeof from === 'string' && typeof to === 'string' && typeof amount==='number'){
+            const result = getExchange(from, to, amount) //service is paid((
+        }
+    
 
-const Input = ({ data, currency, baseCurrency, dispatch, getExchange, from, to, amount }) => {
-    console.log(from, to, amount)
     const getAmountFromInput = (amount, event, dispatch) => {
+        amount = Number(amount)
         store.dispatch({ type : 'AUTOCOMPLETE_SELECTED_AMOUNT', amount })
     }
-    
+    const handleInputChange = (event, value ) => {
+        const date = format(event.target.value, 'YYYY-MM-DD')
+        console.log(date)
+        //dispatching data from
+        store.dispatch({type : 'INPUT_ADDED_DATE', date})
+        const result = getByDate(date)
+
+    }
+   
     
     return(   
         <div className="form">         
@@ -51,17 +62,24 @@ const Input = ({ data, currency, baseCurrency, dispatch, getExchange, from, to, 
             <Footer 
             data={data}
             baseCurrency={baseCurrency}
+            handleInputChange={handleInputChange}
 
             />
         </div>
     )
 }
-const mapStateToProps= ({ addSelectedCurrency }) =>{
+const mapStateToProps= ({ addSelectedCurrency, getDataByDate }) =>{
     const {from, to, amount } = addSelectedCurrency; 
-    console.log(from, to, amount) 
+    const {date, currencyByDate, startFetching} = getDataByDate; //start fetching for spinner
+    return{
+        from : from,
+        to : to,
+        amount : amount
+      }
 }
 const mapDispatchToProps = dispatch => ({
     getExchange : ()=>dispatch(getCrossCourseFromFixer),
+    getByDate : ()=>dispatch(getCurrencyFromFixerByDate)
   })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Input);

@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React from "react";
 import Downshift from 'downshift';
 import matchSorter from "match-sorter";
 import styled from "styled-components";

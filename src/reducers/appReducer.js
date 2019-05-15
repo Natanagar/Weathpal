@@ -1,5 +1,6 @@
 import { combineReducers } from 'redux';
 import { addSelectedCurrency } from './AutocompleteReducers';
+import { getDataByDate } from './inputReducer';
 import { createReducer } from '../components/utils/utils';
 import {
   FETCH_CURRENCY_START,
@@ -32,19 +33,20 @@ const getDataFromApi = (state = initialState, action) => {
         ...state,
         isLoading: true,
       };
-    case 'FETCH_CURRENCY_PENDING':
+    case FETCH_CURRENCY_PENDING:
       return {
         ...state,
         pending: true,
       };
-    case 'FETCH_CURRENCY_ERROR':
+    case FETCH_CURRENCY_ERROR:
       return {
         ...state,
         pending: false,
         isLoading: true,
         error: action.error,
       };
-    case 'FETCH_CURRENCY_SUCCESS':
+    case FETCH_CURRENCY_SUCCESS:
+      console.log(action);
       return {
         ...state,
         isLoading: false,
@@ -63,6 +65,7 @@ const getDataFromApi = (state = initialState, action) => {
 const rootReducer = combineReducers({
   getDataFromApi,
   addSelectedCurrency,
+  getDataByDate,
 });
 
 export default rootReducer;

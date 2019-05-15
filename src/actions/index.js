@@ -1,7 +1,3 @@
-import format from 'date-fns/format';
-import Api from '../components/Api/index';
-import { keyData } from '../components/Api/Apikey';
-
 const makeActionCreator = (type, ...argNames) => (...args) => {
   const action = { type };
   argNames.forEach((arg, index) => {
@@ -22,6 +18,12 @@ export const AUTOCOMPLETE_SELECTED_AMOUNT = 'AUTOCOMPLETE_SELECTED_AMOUNT';
 export const AUTOCOMPLETE_EXCHANGE_FETCHING_START = 'AUTOCOMPLETE_EXCHANGE_FETCHING_START';
 export const AUTOCOMPLETE_EXCHANGE_FETCHING_SUCCESS = 'AUTOCOMPLETE_EXCHANGE_FETCHING_SUCCESS';
 export const AUTOCOMPLETE_EXCHANGE_FETCHING_ERROR = 'AUTOCOMPLETE_EXCHANGE_FETCHING_ERROR';
+
+// actions from input
+export const INPUT_ADDED_DATE = 'INPUT_ADDED_DATE';
+export const INPUT_FETCH_START = 'INPUT_FETCH_START';
+export const INPUT_FETCH_ERROR = 'INPUT_FETCH_ERROR';
+export const INPUT_FETCH_SUCCESS = 'INPUT_FETCH_SUCCESS';
 
 
 export const fetchCurrencyPending = () => makeActionCreator(FETCH_CURRENCY_PENDING);
@@ -58,4 +60,12 @@ export const selectedCurrencyTo = currency => ({
 export const selectedAmount = amount => ({
   type: AUTOCOMPLETE_SELECTED_AMOUNT,
   amount,
+});
+
+// action creators for Input
+export const fetchCurrencyByDate = ({ currencyByDate, date, baseCurrency }) => ({
+  type: FETCH_CURRENCY_SUCCESS,
+  currencyByDate,
+  date,
+  baseCurrency,
 });
