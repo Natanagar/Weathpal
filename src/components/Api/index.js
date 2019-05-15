@@ -5,8 +5,9 @@ import {keyData} from "./Apikey";
 
 
 class Api {
-  constructor(endpoint, key) {
+  constructor(endpoint, key, nextEndpoint) {
     this.endpoint = endpoint;
+    this.nextEndpoint = nextEndpoint;
     this.key = key;
   }
 
@@ -33,9 +34,8 @@ class Api {
   //? access_key = API_KEY
   //& base = GBP
   //& symbols = USD,CAD,EUR
-  getCurrencyByDate = async (endpoint, key, date) => {
-    const dateFrom = store.getState();
-    return await axios.get(`${endpoint}${date}?access_key=${key}`)
+  getCurrencyByDate = async (nextEndpoint, date) => {
+    return await axios.get(`${nextEndpoint}`)
   }
 }
 

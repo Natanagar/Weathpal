@@ -62,14 +62,16 @@ export const getCurrencyFromFixerByDate = store.dispatch((date) => {
   return dispatch => {
     dispatch({type : 'INPUT_FETCH_START'})
     const date = store.getState().getDataByDate.date;
-    console.log(date)
     const api = new Api();
-    const endpoint = keyData.endpoint;
-    const key = keyData.key;
-    api.getCurrencyByDate(endpoint,key, date)
+    const endpoint = `${keyData.nextEndpoint}${date}`;
+    api.getCurrencyByDate(endpoint)
     .then(res => 
-      dispatch({type : 'INPUT_FETCH_SUCCESS', payload : res.data.rates}))
-    .catch(error => dispatch({type : 'INPUT_FETCH_ERROR', payload : error})) 
+      dispatch({type : 'INPUT_FETCH_SUCCESS', payload : { 
+        currency : res.data.rates,
+        dateFrom: format(res.data.date, 'DD.MM.YYYY'),
+        baseCurrency : res.data.base
+      }}))
+    .catch(error => dispatch({type : 'INPUT_FETCH_ERROR', payload : error}))
   }
 }) 
 

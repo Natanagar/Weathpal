@@ -46,7 +46,6 @@ const getDataFromApi = (state = initialState, action) => {
         error: action.error,
       };
     case FETCH_CURRENCY_SUCCESS:
-      console.log(action);
       return {
         ...state,
         isLoading: false,

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { connect } from 'react-redux';
 import { InputAutocomplete } from '../Autocomplete/Autocomplete';
 import { store } from '../../index';
@@ -12,19 +12,31 @@ import format from 'date-fns/format';
  
 const Input = ({ data, currency, baseCurrency, 
     dispatch, getExchange, from, 
-    to, amount, getByDate, calculatingRating }) => {
+    to, amount, getByDate, items }) => {
+        console.log(items)
+        
         if(typeof from === 'string' && typeof to === 'string' && typeof amount==='number'){
             const result = getExchange(from, to, amount) //service is paid((
         }
-    
+    const CalculatingRating = ({dispatch})  => {
+        const handleClick = useCallback(() => {
+            
+            //do something
+            console.log(items)
+        },[{items, from, to, amount}])
+        
+        return(
+            <Button 
+            onClick={event => handleClick(event,items,from, to, amount)} data={"calculate"}/>
+        ) 
+    }
 
     const getAmountFromInput = (amount, event, dispatch) => {
         amount = Number(amount)
         store.dispatch({ type : 'AUTOCOMPLETE_SELECTED_AMOUNT', amount })
     }
-    const handleInputChange = (event, value ) => {
+    const handleInputChange = (event, value) => {
         const date = format(event.target.value, 'YYYY-MM-DD')
-        console.log(date)
         //dispatching data from
         store.dispatch({type : 'INPUT_ADDED_DATE', date})
         const result = getByDate(date)
@@ -52,17 +64,8 @@ const Input = ({ data, currency, baseCurrency,
                 currency={currency}
                 />
                 </section>
-                <section>
-                    {/* need to add some styles to button ex. styled.component */}
-                    <Button 
-                    data={"calculate"}
-                    onClick={()=>calculatingRating()} 
-                    style={{
-                        maxWidth: "200px",
-                        background : "darkblue"
-                    }}
-                    />
-                </section>
+                <CalculatingRating />
+                
             </form>
             <Footer 
             data={data}
@@ -73,10 +76,12 @@ const Input = ({ data, currency, baseCurrency,
         </div>
     )
 }
-const mapStateToProps= ({ addSelectedCurrency, getDataByDate }) =>{
+const mapStateToProps= ({ addSelectedCurrency, getDataByDate, getDataFromApi }) =>{
+    const { items } = getDataFromApi;
     const {from, to, amount } = addSelectedCurrency; 
     const {date, currencyByDate, startFetching} = getDataByDate; //start fetching for spinner
     return{
+        items : items,
         from : from,
         to : to,
         amount : amount

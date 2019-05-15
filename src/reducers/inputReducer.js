@@ -30,7 +30,10 @@ export const getDataByDate = (state = initialState, action) => {
       return {
         ...state,
         startFetching: false,
-        currencyByDate: action.payload,
+        currencyByDate: action.payload.currency,
+        convertFrom: action.payload.baseCurrency,
+        convertByDate: action.payload.dateFrom,
+
       };
     case INPUT_ADDED_DATE:
       return {
