@@ -2,7 +2,6 @@ import React from "react";
 import format from 'date-fns/format';
 
 export const Table = ({ data, currency, dateByConvert, currencyByDate }) => {
-  console.log(Object.values(currencyByDate))
   const AdditionalTh = () => {
     return(
       <>
@@ -15,7 +14,6 @@ export const Table = ({ data, currency, dateByConvert, currencyByDate }) => {
       </>
     )
   }
-  console.log(AdditionalTh)
   if (!dateByConvert || !currencyByDate) {
     return(
         <table>
@@ -62,7 +60,9 @@ export const Table = ({ data, currency, dateByConvert, currencyByDate }) => {
         </thead>
         <tbody>
         {Object.entries(currency).map((item, index)=>
+          
            <tr key={index}>
+           
 
           
             <td style={{
@@ -74,10 +74,10 @@ export const Table = ({ data, currency, dateByConvert, currencyByDate }) => {
             }}> {item[0]}
             </td>
             <td>{Math.round(item[1]*100)/100}</td>
-          </tr>  
-          
+          </tr>
+         
         )}
-        
+         <AdditionalTh />
          </tbody>
       </table>
   )}

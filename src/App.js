@@ -1,5 +1,6 @@
 import React, {useEffect} from "react";
 import { connect } from 'react-redux';
+import localforage from 'localforage';
 
 import { Table } from './components/Table/Table';
 import Input from './components/Input/Input';
@@ -13,7 +14,7 @@ import "./App.css";
 const App = ({ getCurrency, dispatch, items, 
   data, baseCurrency, amount, 
   dateByConvert, currencyByDate }) => { 
-  console.log(dateByConvert, currencyByDate);
+ 
   
   //useEffect as didMount
   useEffect((dispatch) => {
