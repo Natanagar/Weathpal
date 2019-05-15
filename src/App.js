@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { Table } from './components/Table/Table';
 import Input from './components/Input/Input';
 import { getCurrencyFromFixer } from '../src/index';
+import { sortingObject } from './components/utils/utils'
 
 import "./App.css";
 
@@ -11,10 +12,14 @@ import "./App.css";
  
 
 const App = ({ getCurrency, dispatch, items, 
-  data, baseCurrency, amount, 
+  data, baseCurrency, amount, from, to,  
   dateByConvert, currencyByDate
 }) => { 
-  
+  const calculatingRating =(event, from, to, amount, items) => {
+    console.log("CLICK CLICK")
+    const valueFrom = sortingObject(items, from)
+    const valueTo = sortingObject(items, to)
+  }
   //useEffect as didMount
   useEffect((dispatch) => {
     const result = getCurrency();
@@ -23,7 +28,8 @@ const App = ({ getCurrency, dispatch, items,
   return(
     <div className="App">
     <h1>Currency exchange by the {data}</h1>
-    <Input 
+    <Input
+    calculatingRating={calculatingRating} 
     data={data}
     currency={items}
     baseCurrency={baseCurrency}
@@ -55,7 +61,9 @@ const mapStateToProps= ({ getDataFromApi, addSelectedCurrency, getDataByDate }) 
     data : data,
     items : items,
     baseCurrency : baseCurrency,
-    amount : amount
+    amount : amount,
+    from : from, 
+    to : to,
   }
 }
 

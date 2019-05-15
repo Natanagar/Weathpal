@@ -12,7 +12,7 @@ import format from 'date-fns/format';
  
 const Input = ({ data, currency, baseCurrency, 
     dispatch, getExchange, from, 
-    to, amount, getByDate }) => {
+    to, amount, getByDate, calculatingRating }) => {
         if(typeof from === 'string' && typeof to === 'string' && typeof amount==='number'){
             const result = getExchange(from, to, amount) //service is paid((
         }
@@ -54,8 +54,13 @@ const Input = ({ data, currency, baseCurrency,
                 </section>
                 <section>
                     {/* need to add some styles to button ex. styled.component */}
-                    <Button style={{
-                        width: '200px'}}
+                    <Button 
+                    data={"calculate"}
+                    onClick={()=>calculatingRating()} 
+                    style={{
+                        maxWidth: "200px",
+                        background : "darkblue"
+                    }}
                     />
                 </section>
             </form>
