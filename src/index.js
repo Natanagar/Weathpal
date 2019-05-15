@@ -1,6 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { createStore, applyMiddleware } from 'redux';
+import { persistStore, persistReducer } from 'redux-persist';
+import { PersistGate } from 'redux-persist/integration/react'
+import storage from 'redux-persist/lib/storage';
 import logger from 'redux-logger';
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
@@ -17,7 +20,14 @@ import * as serviceWorker from './serviceWorker';
 
 import reducer from './reducers/appReducer';
 
-export const store = createStore(reducer, applyMiddleware(thunk,logger));
+const persistConfig = {
+  key: 'root',
+  storage,
+}
+const persistedReducer = persistReducer(persistConfig, reducer)
+
+export const store = createStore(persistedReducer, applyMiddleware(thunk,logger));
+export const persistor = persistStore(store)
 //for testing in browser
 window.store = store;
 
@@ -68,7 +78,10 @@ export const getCurrencyFromFixerByDate = store.dispatch((date) => {
 
 ReactDOM.render(
     <Provider store={store}>
-      <App />
+      <PersistGate loading={null} persistor={persistor}>
+        <App />
+      </PersistGate>
+      
     </Provider>,
     document.getElementById('root')
   );

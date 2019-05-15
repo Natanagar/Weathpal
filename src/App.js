@@ -1,6 +1,5 @@
 import React, {useEffect} from "react";
 import { connect } from 'react-redux';
-import localforage from 'localforage';
 
 import { Table } from './components/Table/Table';
 import Input from './components/Input/Input';
@@ -13,8 +12,8 @@ import "./App.css";
 
 const App = ({ getCurrency, dispatch, items, 
   data, baseCurrency, amount, 
-  dateByConvert, currencyByDate }) => { 
- 
+  dateByConvert, currencyByDate
+}) => { 
   
   //useEffect as didMount
   useEffect((dispatch) => {
@@ -45,9 +44,11 @@ const App = ({ getCurrency, dispatch, items,
 // which props do we want to inject, given the global store state?
 //we observe addSelectedCurrency reducer in input
 const mapStateToProps= ({ getDataFromApi, addSelectedCurrency, getDataByDate }) =>{
+  
   const{ from, to, amount } = addSelectedCurrency;
   const { date, currencyByDate, startFetching } = getDataByDate;
   const { data, items, baseCurrency } = getDataFromApi;
+  
   return{
     dateByConvert : date,
     currencyByDate : currencyByDate,
