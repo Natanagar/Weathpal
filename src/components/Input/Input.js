@@ -2,7 +2,7 @@ import React, { useCallback } from "react";
 import { connect } from 'react-redux';
 import { InputAutocomplete } from '../Autocomplete/Autocomplete';
 import  { store } from '../../index';
-import { getCrossCourse, getCurrencyFromFixerByDate } from '../../actions/index';
+import { getCrossCourse, getRatingByDate } from '../../actions/index';
 import { Button } from '../Button/Button';
 import { Footer } from '../Table/Footer';
 import { Amount } from '../Autocomplete/Amount';
@@ -23,6 +23,7 @@ const Input = ({ data, currency, baseCurrency,
     const CalculatingRating = ({ dispatch }) => {
         const handleRating = useCallback(
           () => {
+            console.log(from, to)
             store.dispatch(getExchange(from, to));
           },
           [from, to],
@@ -44,7 +45,8 @@ const Input = ({ data, currency, baseCurrency,
         const date = format(event.target.value, 'YYYY-MM-DD')
         //dispatching data from
         store.dispatch({type : 'INPUT_ADDED_DATE', date})
-        const result = getByDate(date)
+        console.log(date)
+        store.dispatch(getByDate(date))
 
     }
    
@@ -99,7 +101,7 @@ const mapStateToProps= ({ addSelectedCurrency, getDataByDate, getDataFromApi }) 
 }
 const mapDispatchToProps = dispatch => ({
     getExchange : ()=>dispatch(getCrossCourse),
-    getByDate : ()=>dispatch(getCurrencyFromFixerByDate)
+    getByDate : ()=>dispatch(getRatingByDate)
   })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Input);

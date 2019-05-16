@@ -69,22 +69,38 @@ export const getCurrencyFromFixer = () => store.dispatch((dispatch) => {
 
 
 // fetching data if you  want convert currency from to
-export const getCrossCourse = (from, to) => (dispatch) => {
+export const getCrossCourse = (from, to) => ({ dispatch }) => {
   console.log(from, to);
-  // store.dispatch({ type: 'INPUT_CONVERT_START' });
+  store.dispatch({ type: 'INPUT_CONVERT_START' });
   const api = new Api();
   // https://api.exchangeratesapi.io/latest?symbols=USD,GBP
   const endpoint = keyData.nextEndpoint;
   console.log(endpoint);
-  api.getCrossCurrency(`${endpoint}latest?symbols=${from},${to}`)
+  api.getCrossCurrency('https://api.exchangeratesapi.io/latest?symbols=USD,GBP')
     .then(res => console.log(res.data))
     .catch(error => console.log(error));
   // .then(res => dispatch(fetchCrossCourse(res.data)))
   // .catch(error => dispatch({ type: 'INPUT_CONVERT_ERROR', payload: error }));
 };
 
+/* export const fetchOrders = (token) => dispatch => {
+    dispatch(fetchOrdersStart());
+    axios.get('/orders.json?auth=' + token)
+    .then(res => {
+      let fetchedOrders = []
+      for(let key in res.data){
+        fetchedOrders.push({
+          ...res.data[key],
+          id:key
+        })
+      }
+      dispatch(fetchOrdersSuccess(fetchedOrders))
+    })
+    .catch(error => dispatch(fetchOrdersFailed(error)))
+  }; */
+
 // fetching currency for fetching data as at
-export const getCurrencyFromFixerByDate = date => (dispatch) => {
+export const getRatingByDate = () => (dispatch) => {
   dispatch({ type: 'INPUT_FETCH_START' });
   const { date } = store.getState().getDataByDate;
   const api = new Api();
