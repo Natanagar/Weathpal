@@ -17,7 +17,7 @@ const stateReducer = (state, changes)=> {
     return changes
 }
 
-export const InputAutocomplete = ({ currency, getFrom, getTo, from }) => {
+export const InputAutocomplete = ({ currency, getFrom, getTo, from, direction }) => {
 
     const[open, changeOpen] = useState(false);
     
@@ -46,7 +46,7 @@ const getItems = value => value ? matchSorter(items, value, {keys : ['value']}) 
 const itemToString = item => (item ? item.value : '')
 return(
         
-    <div>Selection
+    <div>
         <Downshift 
         //onChange={(selection, event) => getTo(selection.value, from)}
         stateReducer={stateReducer} defaultValue='EUR' isOpen={open} onStateChange={handleChanges} itemToString={itemToString}>
@@ -66,7 +66,7 @@ return(
                 isOpen,
                 from
                 }) => <div>
-            <label htmlFor="input"{...getLabelProps()}>Choose currency</label>
+            <label htmlFor="input"{...getLabelProps()}>{direction}</label>
                 <input 
                 {...getInputProps()}
                 />

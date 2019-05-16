@@ -14,21 +14,10 @@ class Api {
   getData = async (endpoint, key) => {
     return await axios.get(`${endpoint}/latest?access_key=${key}`);
   };
-  //https://data.fixer.io/api/convert
-    //? access_key = API_KEY
-    //& from = GBP
-    //& to = JPY
-    //& amount = 25
-  getCrossCurrency = async (endpoint, key, {from, to, amount} ) => {
-    console.log(endpoint)
-    console.log(`${endpoint}convert`)
-    return await axios.get(`${endpoint}/convert?access_key=${key}`, {
-      params: {
-        '&from' : {from},
-        '&to' : {to},
-        '&amount' : {amount}
-      }
-  })}
+ // https://api.exchangeratesapi.io/latest?symbols=USD,GBP
+  getCrossCurrency = async (nextEndpoint) => {
+    return await axios.get(`${nextEndpoint}`);
+  }
 
   //http://data.fixer.io/api/2013-12-24
   //? access_key = API_KEY

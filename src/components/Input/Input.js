@@ -15,11 +15,11 @@ const Input = ({ data, currency, baseCurrency,
     dispatch, getExchange, from, 
     to, amount, getByDate, items }) => {
 
-    
+    //after click need to stop propagation
     const stopBrowser = e => {
         e.preventDefault();
     }
-   
+    //fetching data with react-hooks (with ui)
     const CalculatingRating = ({ dispatch }) => {
         const handleRating = useCallback(
           () => {
@@ -35,7 +35,7 @@ const Input = ({ data, currency, baseCurrency,
         
     }
 
-
+    //put amount to store
     const getAmountFromInput = (amount, event, dispatch) => {
         amount = Number(amount)
         store.dispatch({ type : 'AUTOCOMPLETE_SELECTED_AMOUNT', amount })
@@ -54,6 +54,7 @@ const Input = ({ data, currency, baseCurrency,
             <form className="form-field">
                 <section className="form-field-amount">
                 <InputAutocomplete
+                direction={'Base currency'}
                 from={true}
                 currency={currency}
                 />
@@ -65,6 +66,7 @@ const Input = ({ data, currency, baseCurrency,
                 </section>
                 <section className="form-field-to">
                 <InputAutocomplete
+                direction={'Convert to'}
                 from={false}
                 currency={currency}
                 />

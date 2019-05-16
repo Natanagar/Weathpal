@@ -70,14 +70,17 @@ export const getCurrencyFromFixer = () => store.dispatch((dispatch) => {
 
 // fetching data if you  want convert currency from to
 export const getCrossCourse = (from, to) => (dispatch) => {
-  store.dispatch({ type: 'INPUT_CONVERT_START' });
+  console.log(from, to);
+  // store.dispatch({ type: 'INPUT_CONVERT_START' });
   const api = new Api();
   // https://api.exchangeratesapi.io/latest?symbols=USD,GBP
-  const endpoint = `${keyData.nextEndpoint}latest?symbols=${from},${to}`;
+  const endpoint = keyData.nextEndpoint;
   console.log(endpoint);
-  api.getCrossCurrency(endpoint)
-    .then(res => dispatch(fetchCrossCourse(res.data)))
-    .catch(error => dispatch({ type: 'INPUT_CONVERT_ERROR', payload: error }));
+  api.getCrossCurrency(`${endpoint}latest?symbols=${from},${to}`)
+    .then(res => console.log(res.data))
+    .catch(error => console.log(error));
+  // .then(res => dispatch(fetchCrossCourse(res.data)))
+  // .catch(error => dispatch({ type: 'INPUT_CONVERT_ERROR', payload: error }));
 };
 
 // fetching currency for fetching data as at
