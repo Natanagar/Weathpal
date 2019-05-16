@@ -4,7 +4,8 @@ import matchSorter from 'match-sorter';
 
 import { Table } from './components/Table/Table';
 import Input from './components/Input/Input';
-import { getCurrencyFromFixer, store } from '../src/index';
+import { store } from '../src/index';
+import { getCurrencyFromFixer } from './actions/index'
 
 
 import "./App.css";

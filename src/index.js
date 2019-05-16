@@ -2,80 +2,29 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { createStore, applyMiddleware } from 'redux';
 import { persistStore, persistReducer } from 'redux-persist';
-import { PersistGate } from 'redux-persist/integration/react'
+import { PersistGate } from 'redux-persist/integration/react';
+import { Provider } from 'react-redux';
 import storage from 'redux-persist/lib/storage';
 import logger from 'redux-logger';
-import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
-import format from 'date-fns/format';
-import './index.css';
-import App from './App';
-import Api from './components/Api/index';
-import { keyData } from "./components/Api/Apikey";
-import { fetchCurrencyByDate } from './actions/index'
-
-
+import rootReducer from './reducers/appReducer';
 
 import * as serviceWorker from './serviceWorker';
 
-import reducer from './reducers/appReducer';
-
-const persistConfig = {
-  key: 'root',
-  storage,
-}
-const persistedReducer = persistReducer(persistConfig, reducer)
-
-export const store = createStore(persistedReducer, applyMiddleware(thunk,logger));
-export const persistor = persistStore(store)
-//for testing in browser
-window.store = store;
+import App from './App';
+import './index.css';
 
 
-export const getCurrencyFromFixer = () => store.dispatch(dispatch => {
-  dispatch({type : 'FETCH_CURRENCY_PENDING'})
-  const api = new Api();
-  const endpoint = keyData.endpoint;
-  const key = keyData.key;
-  api.getData(endpoint, key)
-  .then(res => 
-    dispatch({type : 'FETCH_CURRENCY_SUCCESS', payload : { 
-    items: res.data.rates,
-    data: format(res.data.date, 'DD.MM.YYYY'),
-    baseCurrency : res.data.base
-  }
-  }))
-  .catch(err => dispatch({type : 'FETCH_CURRENCY_ERROR', payload : err}))
-  
-})
-export const getCrossCourseFromFixer = store.dispatch((from, to, amount) => {
-  return dispatch => {
-  const api = new Api();
-  const endpoint = keyData.endpoint;
-  const key = keyData.key;
-  api.getCrossCurrency(endpoint, key , {from, to, amount})
-  .then(res => console.log(res.data))
-  .catch(err => console.log(err.type, err.info))
-}})
+export const persistConfig = {
+    key: 'root',
+    storage,
+  };
+export const persistedReducer = persistReducer(persistConfig, rootReducer);
 
-export const getCurrencyFromFixerByDate = store.dispatch((date) => {
-  return dispatch => {
-    dispatch({type : 'INPUT_FETCH_START'})
-    const date = store.getState().getDataByDate.date;
-    const api = new Api();
-    const endpoint = `${keyData.nextEndpoint}${date}`;
-    api.getCurrencyByDate(endpoint)
-    .then(res => 
-      dispatch({type : 'INPUT_FETCH_SUCCESS', payload : { 
-        currency : res.data.rates,
-        dateFrom: format(res.data.date, 'DD.MM.YYYY'),
-        baseCurrency : res.data.base
-      }}))
-    .catch(error => dispatch({type : 'INPUT_FETCH_ERROR', payload : error}))
-  }
-}) 
-
-
+export const store = createStore(persistedReducer, applyMiddleware(thunk, logger));
+  // for testing in browser
+  window.store = store;
+const persistor = persistStore(store);
 
 
 ReactDOM.render(
