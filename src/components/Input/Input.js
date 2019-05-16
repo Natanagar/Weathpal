@@ -1,10 +1,10 @@
-import React, { useEffect, useMemo } from "react";
+import React, { useCallback } from "react";
 import { connect } from 'react-redux';
 import { InputAutocomplete } from '../Autocomplete/Autocomplete';
 import  { store } from '../../index';
 import { getCrossCourse, getCurrencyFromFixerByDate } from '../../actions/index';
 import { Button } from '../Button/Button';
-import { Footer } from '../Table/Footer'
+import { Footer } from '../Table/Footer';
 import { Amount } from '../Autocomplete/Amount';
 import format from 'date-fns/format';
 
@@ -21,16 +21,20 @@ const Input = ({ data, currency, baseCurrency,
         console.log("ДУРАКАМ ЗАКОН НЕ ПИСАН")
     }
    
-    /*const CalculatingRating = ({ dispatch }) => {
-        const handleRating = useMemo((from, to) => {
-            const result = store.dispatch(getByDate(from, to));
+    const CalculatingRating = ({ dispatch }) => {
+        const handleRating = useCallback(
+          () => {
+            getExchange(from, to)
+          },
+          [from, to],
+        )
             return(
                 <Button 
                 onClick={handleRating(from,to)} 
                 data={"calculate"} 
             />)
-        },[from, to])
-    }*/
+        
+    }
 
 
     const getAmountFromInput = (amount, event, dispatch) => {
@@ -68,7 +72,7 @@ const Input = ({ data, currency, baseCurrency,
                 </section>
                 <section
                 onClick={e=>stopBrowser(e)}>
-                {   /*<CalculatingRating />*/}
+                <CalculatingRating />
                 </section>
                 
             </form>
