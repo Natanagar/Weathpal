@@ -18,13 +18,12 @@ const Input = ({ data, currency, baseCurrency,
     
     const stopBrowser = e => {
         e.preventDefault();
-        console.log("ДУРАКАМ ЗАКОН НЕ ПИСАН")
     }
    
     const CalculatingRating = ({ dispatch }) => {
         const handleRating = useCallback(
           () => {
-            getExchange(from, to)
+            store.dispatch(getExchange(from, to));
           },
           [from, to],
         )

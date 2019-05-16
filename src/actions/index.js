@@ -76,19 +76,12 @@ export const getCrossCourse = (from, to) => (dispatch) => {
   const endpoint = `${keyData.nextEndpoint}latest?symbols=${from},${to}`;
   console.log(endpoint);
   api.getCrossCurrency(endpoint)
-    .then(res => dispatch({
-      type: 'INPUT_CONVERT_SUCCESS',
-      payload: {
-        currency: res.data.rates,
-        dateFrom: format(res.data.date, 'DD.MM.YYYY'),
-        baseCurrency: res.data.base,
-      },
-    }))
+    .then(res => dispatch(fetchCrossCourse(res.data)))
     .catch(error => dispatch({ type: 'INPUT_CONVERT_ERROR', payload: error }));
 };
 
 // fetching currency for fetching data as at
-export const getCurrencyFromFixerByDate = (date) => dispatch => {
+export const getCurrencyFromFixerByDate = date => (dispatch) => {
   dispatch({ type: 'INPUT_FETCH_START' });
   const { date } = store.getState().getDataByDate;
   const api = new Api();
