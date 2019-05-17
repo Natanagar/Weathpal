@@ -1,30 +1,46 @@
 import React, { useCallback } from "react";
 import { connect } from 'react-redux';
+import format from 'date-fns/format';
 import { InputAutocomplete } from '../Autocomplete/Autocomplete';
 import  { store } from '../../index';
 import { getCrossCourse, getRatingByDate } from '../../actions/index';
 import { Button } from '../Button/Button';
 import { Footer } from '../Table/Footer';
 import { Amount } from '../Autocomplete/Amount';
-import format from 'date-fns/format';
+import { crossCourse, crossCourseTo } from '../utils/utils'
+
 
 
 
  
 const Input = ({ data, currency, baseCurrency, 
     dispatch, getExchange, from, 
-    to, amount, getByDate, items }) => {
+    to, amount, getByDate, items, rates, }) => {
 
     //after click need to stop propagation
     const stopBrowser = e => {
         e.preventDefault();
     }
+    const calculatingSum = ( amount, from, to ) => {
+        const {base, date, rates} = store.getState().getDataByDate.currency;
+        const arrayWithValues = Object.entries(rates).map(item => 
+            [].concat(item)
+        )
+        console.log(Number(arrayWithValues[0][1]));
+        console.log(Number(arrayWithValues[1][1]));
+        const resultFrom = (crossCourse(arrayWithValues[0][1], arrayWithValues[1][1]) * amount);
+        const resultTo = (crossCourse(arrayWithValues[0][1], arrayWithValues[1][1]) * amount);
+        (console.log(resultFrom, resultTo))
+        
+    }
+
     //fetching data with react-hooks (with ui)
     const CalculatingRating = ({ dispatch }) => {
         const handleRating = useCallback(
           () => {
             console.log(from, to)
             store.dispatch(getExchange(from, to));
+            calculatingSum(amount, from, to)
           },
           [from, to],
         )
@@ -91,7 +107,9 @@ const Input = ({ data, currency, baseCurrency,
 const mapStateToProps= ({ addSelectedCurrency, getDataByDate, getDataFromApi }) =>{
     const { items } = getDataFromApi;
     const {from, to, amount } = addSelectedCurrency; 
-    const {date, currencyByDate, startFetching} = getDataByDate; //start fetching for spinner
+    const {date, currencyByDate, startFetching} = getDataByDate; 
+   
+    //start fetching for spinner
     return{
         items : items,
         from : from,

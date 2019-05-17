@@ -12,3 +12,6 @@ export const createReducer = (initialState, actionHandlers) => (state = initialS
   }
   return state;
 };
+
+export const crossCourse = (fromCurrency, toCurrency) => (Math.round((fromCurrency / toCurrency) * 100) / 100);
+export const crossCourseTo = (fromCurrency, toCurrency) => (Math.round((toCurrency / fromCurrency) * 100) / 100);
