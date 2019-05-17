@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import format from 'date-fns/format';
 import { InputAutocomplete } from '../Autocomplete/Autocomplete';
 import  { store } from '../../index';
-import { getCrossCourse, getRatingByDate } from '../../actions/index';
+import { getCrossCourse, getRatingByDate, calculatingSum } from '../../actions/index';
 import { Button } from '../Button/Button';
 import { Footer } from '../Table/Footer';
 import { Amount } from '../Autocomplete/Amount';
@@ -12,32 +12,19 @@ import { crossCourse, crossCourseTo } from '../utils/utils'
 
 
 
+
  
 const Input = ({ data, currency, baseCurrency, 
     dispatch, getExchange, from, 
-    to, amount, getByDate, items, rates}) => {
+    to, amount, getByDate, items, rates, 
+    resultTo, resultFrom, getCross
+}) => {
 
     //after click need to stop propagation
     const stopBrowser = e => {
         e.preventDefault();
     }
-    const calculatingSum = ( amount, from, to, dispatch ) => {
-        console.log(store.getState().getDataByDate)
-        const { base, date, rates} = store.getState().getDataByDate.currency;
-        const arrayWithValues = Object.entries(rates).map(item => 
-            [].concat(item)
-        )
-        console.log(Number(arrayWithValues[0][1]));
-        console.log(Number(arrayWithValues[1][1]));
-        const resultFrom = (crossCourse(arrayWithValues[0][1], arrayWithValues[1][1]) * amount);
-        const resultTo = (crossCourse(arrayWithValues[1][1], arrayWithValues[0][1]) * amount);
-        console.log(resultFrom, resultTo)
-        store.dispatch({ type : 'INPUT_CONVERT_AMOUNT_FROM', resultFrom });
-        store.dispatch({ type : 'INPUT_CONVERT_AMOUNT_TO', resultTo});
-        
-        //dispatch({ type : 'INPUT_CONVERT_AMOUNT_TO', resultTo })*/
-        
-    }
+    
 
     //fetching data with react-hooks (with ui)
     const CalculatingRating = ({ dispatch }) => {
@@ -45,9 +32,13 @@ const Input = ({ data, currency, baseCurrency,
           () => {
             console.log(from, to)
             store.dispatch(getExchange(from, to));
-            calculatingSum(amount, from, to)
+            getCross(amount, from, to);
+            store.dispatch({ type : 'INPUT_CONVERT_AMOUNT_FROM', resultFrom });
+            store.dispatch({ type : 'INPUT_CONVERT_AMOUNT_TO', resultTo});
+    
+            
           },
-          [from, to],
+          [from, to, amount],
         )
             return(
                 <Button 
@@ -104,7 +95,11 @@ const Input = ({ data, currency, baseCurrency,
             data={data}
             baseCurrency={baseCurrency}
             handleInputChange={handleInputChange}
-
+            resultFrom={resultFrom}
+            resultTo={resultTo}
+            from
+            to 
+            amount
             />
         </div>
     )
@@ -113,17 +108,20 @@ const mapStateToProps= ({ addSelectedCurrency, getDataByDate, getDataFromApi }) 
     const { items } = getDataFromApi;
     const {from, to, amount } = addSelectedCurrency; 
     
-    const {date, currencyByDate, startFetching, rating } = getDataByDate; 
+    const {date, currencyByDate, startFetching, resultFrom, resultTo } = getDataByDate; 
     return{
         items : items,
         from : from,
         to : to,
-        amount : amount
+        amount : amount,
+        resultFrom : resultFrom,
+        resultTo : resultTo
       }
     
 }
 const mapDispatchToProps = dispatch => ({
     getExchange : ()=>dispatch(getCrossCourse),
-    getByDate : ()=>dispatch(getRatingByDate)
+    getByDate : ()=>dispatch(getRatingByDate),
+    getCross : ()=>dispatch(calculatingSum)
   })
 export default connect(mapStateToProps, mapDispatchToProps)(Input);

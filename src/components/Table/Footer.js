@@ -1,11 +1,29 @@
 import React, { useState } from 'react';
-export const Footer = ({ data, baseCurrency, handleInputChange }) => {
+export const Footer = ({ data, baseCurrency, handleInputChange, 
+    resultTo, resultFrom, from, to, amount }) => {
    const [date, searchByDate] = useState(null)
+   const title = `Convert ${amount} from ${from} to ${to}`
+   const ResultFrom = () => {
+       return(
+           <div>
+                {(isNaN(from) || isNaN(to)) ? <span>{title} <br/>{resultFrom}</span> : null}
+                 
+           </div>
+       )
+   }
+   const ResultTo = () => {
+    return(
+        <>{resultTo}</>
+        )
+    }
     
     return(
         <div>
             <h4>Figure out your request</h4>
-            <div>Summ</div>
+            <div>
+                <h5>Summ</h5>
+                <ResultFrom />
+            </div>
             <section>Currency from to {baseCurrency}</section>
             <section>Last update {data}</section>
             <form>

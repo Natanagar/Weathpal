@@ -3,6 +3,7 @@ import { store } from '../index';
 
 import Api from '../components/Api/index';
 import { keyData } from '../components/Api/Apikey';
+import { crossCourse } from '../components/utils/utils';
 
 
 // actions from App
@@ -68,21 +69,19 @@ export const getCurrencyFromFixer = () => store.dispatch((dispatch) => {
     }))
     .catch(err => dispatch({ type: 'FETCH_CURRENCY_ERROR', payload: err }));
 });
-/* export const fetchOrders = (token) => dispatch => {
-    dispatch(fetchOrdersStart());
-    axios.get('/orders.json?auth=' + token)
-    .then(res => {
-      let fetchedOrders = []
-      for(let key in res.data){
-        fetchedOrders.push({
-          ...res.data[key],
-          id:key
-        })
-      }
-      dispatch(fetchOrdersSuccess(fetchedOrders))
-    })
-    .catch(error => dispatch(fetchOrdersFailed(error)))
-  }; */
+// calculate rate for currency
+export const calculatingSum = async (amount, from, to, dispatch) => {
+  // console.log(store.getState().getDataByDate)
+  const { base, date, rates } = store.getState().getDataByDate.currency;
+  console.log(rates);
+  const arrayWithValues = Object.entries(rates).map(item => [].concat(item));
+
+  const resultFrom = (crossCourse(arrayWithValues[0][1], arrayWithValues[1][1]));
+  const resultTo = (crossCourse(arrayWithValues[1][1], arrayWithValues[0][1]));
+  // store.dispatch({ type : 'INPUT_CONVERT_AMOUNT_FROM', resultFrom });
+  // store.dispatch({ type : 'INPUT_CONVERT_AMOUNT_TO', resultTo});
+  return resultFrom, resultTo;
+};
 
 // fetching data if you  want convert currency from to
 export const getCrossCourse = () => async (dispatch) => {
