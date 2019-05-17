@@ -35,6 +35,7 @@ export const INPUT_CONVERT_ERROR = 'INPUT_CONVERT_ERROR';
 export const INPUT_CONVERT_SUCCESS = 'INPUT_CONVERT_SUCCESS';
 export const INPUT_CONVERT_AMOUNT_FROM = 'INPUT_CONVERT_AMOUNT_FROM';
 export const INPUT_CONVERT_AMOUNT_TO = 'INPUT_CONVERT_AMOUNT_TO';
+export const INPUT_CONVERT_AMOUNT_START = 'INPUT_CONVERT_AMOUNT_START';
 
 // action creators for Input
 export const fetchCurrencyByDate = ({ currencyByDate, date, baseCurrency }) => ({
@@ -70,30 +71,32 @@ export const getCurrencyFromFixer = () => store.dispatch((dispatch) => {
     .catch(err => dispatch({ type: 'FETCH_CURRENCY_ERROR', payload: err }));
 });
 // calculate rate for currency
-export const calculatingSum = async (amount, from, to, dispatch) => {
-  // console.log(store.getState().getDataByDate)
+export const calculatingSum = (amount, from, to) => async (dispatch) => {
+  return dispatch({ type: 'INPUT_CONVERT_AMOUNT_START' });
   const { base, date, rates } = store.getState().getDataByDate.currency;
   console.log(rates);
   const arrayWithValues = Object.entries(rates).map(item => [].concat(item));
 
-  const resultFrom = (crossCourse(arrayWithValues[0][1], arrayWithValues[1][1]));
-  const resultTo = (crossCourse(arrayWithValues[1][1], arrayWithValues[0][1]));
-  // store.dispatch({ type : 'INPUT_CONVERT_AMOUNT_FROM', resultFrom });
-  // store.dispatch({ type : 'INPUT_CONVERT_AMOUNT_TO', resultTo});
-  return resultFrom, resultTo;
+  const resultFrom = (crossCourse(arrayWithValues[0][1], arrayWithValues[1][1]) * amount);
+  const resultTo = (crossCourse(arrayWithValues[1][1], arrayWithValues[0][1]) * amount);
+  console.log(resultTo, resultFrom);
+  // store.dispatch({ type: 'INPUT_CONVERT_AMOUNT_FROM', resultFrom });
+  // store.dispatch({ type: 'INPUT_CONVERT_AMOUNT_TO', resultTo });
+  return (resultFrom, resultTo);
 };
 
 // fetching data if you  want convert currency from to
-export const getCrossCourse = () => async (dispatch) => {
-  dispatch({ type: 'INPUT_CONVERT_START' });
+export const getCrossCourse = () => (dispatch) => {
+  return dispatch({ type: 'INPUT_CONVERT_START' });
   const api = new Api();
   const { key, endpoint } = keyData;
   const { from, to } = store.getState().addSelectedCurrency;
   const endpointConvert = `${endpoint}latest?access_key=${key}&base=EUR&symbols=${from},${to}`;
-  await api.getCrossCurrency(endpointConvert)
-    // .then(res => console.log(res.data.rates, res.data.date, res.data.base))
-    // .catch(error => console.log(error));
+  api.getCrossCurrency(endpointConvert)
     .then(res => dispatch(fetchCrossCourse(res.data)))
+    .then(() => dispatch(calculatingSum()))
+    .then(resultFrom => (store.dispatch({ type: 'INPUT_CONVERT_AMOUNT_FROM', resultFrom })))
+    .then(resultTo => (store.dispatch({ type: 'INPUT_CONVERT_AMOUNT_TO', resultTo })))
     .catch(error => dispatch({ type: 'INPUT_CONVERT_ERROR', payload: error }));
 };
 

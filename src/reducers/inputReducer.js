@@ -8,6 +8,7 @@ import {
   INPUT_CONVERT_SUCCESS,
   INPUT_CONVERT_AMOUNT_FROM,
   INPUT_CONVERT_AMOUNT_TO,
+  INPUT_CONVERT_AMOUNT_START,
 } from '../actions/index';
 
 const initialState = Object.freeze({
@@ -23,6 +24,15 @@ export const getDataByDate = (state = initialState, action) => {
   switch (action.type) {
     // put data to store for fetching data as at
     case INPUT_FETCH_START:
+      return {
+        ...state,
+        startFetching: true,
+      };
+    case INPUT_CONVERT_AMOUNT_START:
+      return {
+        ...state,
+        startFetching: true,
+      };
       return {
         ...state,
         startFetching: true,

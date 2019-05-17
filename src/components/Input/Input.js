@@ -32,10 +32,10 @@ const Input = ({ data, currency, baseCurrency,
           () => {
             console.log(from, to)
             store.dispatch(getExchange(from, to));
-            getCross(amount, from, to);
-            store.dispatch({ type : 'INPUT_CONVERT_AMOUNT_FROM', resultFrom });
-            store.dispatch({ type : 'INPUT_CONVERT_AMOUNT_TO', resultTo});
-    
+            store.dispatch(getCross(amount, from, to));
+            //store.dispatch({ type : 'INPUT_CONVERT_AMOUNT_FROM', resultFrom });
+            //store.dispatch({ type : 'INPUT_CONVERT_AMOUNT_TO', resultTo});
+            
             
           },
           [from, to, amount],
