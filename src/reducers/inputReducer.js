@@ -8,13 +8,16 @@ import {
   INPUT_CONVERT_SUCCESS,
 } from '../actions/index';
 
-const initialState = {
+const initialState = Object.freeze({
   startFetching: false,
   error: null,
   currencyByDate: [],
   date: null,
   ratingAll: [],
-};
+  currency: [],
+  dateFrom: null,
+  baseCurrency: null,
+});
 // reducers for Input
 export const getDataByDate = (state = initialState, action) => {
   switch (action.type) {
@@ -52,17 +55,21 @@ export const getDataByDate = (state = initialState, action) => {
         startFetching: true,
       };
     case INPUT_CONVERT_ERROR:
+      console.log(action);
       return {
         ...state,
         startFetching: false,
         error: action.payload,
       };
     case INPUT_CONVERT_SUCCESS:
+      console.log(action);
       return {
         ...state,
         startFetching: false,
-        ratingAll: action.payload.currency,
-        convertFrom: action.payload.baseCurrency,
+        currency: action.currency,
+        dateFrom: action.date,
+        baseCurrency: action.baseCurrency,
+
       };
 
     default:

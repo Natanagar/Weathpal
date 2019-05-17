@@ -15,8 +15,8 @@ class Api {
     return await axios.get(`${endpoint}/latest?access_key=${key}`);
   };
  // https://api.exchangeratesapi.io/latest?symbols=USD,GBP
-  getCrossCurrency = async (nextEndpoint) => {
-    return await axios.get(`${nextEndpoint}`);
+  getCrossCurrency = async (endpoint) => {
+    return await axios.get(endpoint);
   }
 
   //http://data.fixer.io/api/2013-12-24
@@ -31,4 +31,3 @@ class Api {
 
 export default Api;
 
-//https://data.fixer.io/api/convert?access_key=ebad364e6eba547a0daee933c19ce18c&from=GBP&to=JPY&amount=25
