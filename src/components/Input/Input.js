@@ -15,22 +15,27 @@ import { crossCourse, crossCourseTo } from '../utils/utils'
  
 const Input = ({ data, currency, baseCurrency, 
     dispatch, getExchange, from, 
-    to, amount, getByDate, items, rates, }) => {
+    to, amount, getByDate, items, rates}) => {
 
     //after click need to stop propagation
     const stopBrowser = e => {
         e.preventDefault();
     }
-    const calculatingSum = ( amount, from, to ) => {
-        const {base, date, rates} = store.getState().getDataByDate.currency;
+    const calculatingSum = ( amount, from, to, dispatch ) => {
+        console.log(store.getState().getDataByDate)
+        const { base, date, rates} = store.getState().getDataByDate.currency;
         const arrayWithValues = Object.entries(rates).map(item => 
             [].concat(item)
         )
         console.log(Number(arrayWithValues[0][1]));
         console.log(Number(arrayWithValues[1][1]));
         const resultFrom = (crossCourse(arrayWithValues[0][1], arrayWithValues[1][1]) * amount);
-        const resultTo = (crossCourse(arrayWithValues[0][1], arrayWithValues[1][1]) * amount);
-        (console.log(resultFrom, resultTo))
+        const resultTo = (crossCourse(arrayWithValues[1][1], arrayWithValues[0][1]) * amount);
+        console.log(resultFrom, resultTo)
+        store.dispatch({ type : 'INPUT_CONVERT_AMOUNT_FROM', resultFrom });
+        store.dispatch({ type : 'INPUT_CONVERT_AMOUNT_TO', resultTo});
+        
+        //dispatch({ type : 'INPUT_CONVERT_AMOUNT_TO', resultTo })*/
         
     }
 
@@ -51,7 +56,7 @@ const Input = ({ data, currency, baseCurrency,
             />)
         
     }
-
+  
     //put amount to store
     const getAmountFromInput = (amount, event, dispatch) => {
         amount = Number(amount)
@@ -107,19 +112,18 @@ const Input = ({ data, currency, baseCurrency,
 const mapStateToProps= ({ addSelectedCurrency, getDataByDate, getDataFromApi }) =>{
     const { items } = getDataFromApi;
     const {from, to, amount } = addSelectedCurrency; 
-    const {date, currencyByDate, startFetching} = getDataByDate; 
-   
-    //start fetching for spinner
+    
+    const {date, currencyByDate, startFetching, rating } = getDataByDate; 
     return{
         items : items,
         from : from,
         to : to,
         amount : amount
       }
+    
 }
 const mapDispatchToProps = dispatch => ({
     getExchange : ()=>dispatch(getCrossCourse),
     getByDate : ()=>dispatch(getRatingByDate)
   })
-
 export default connect(mapStateToProps, mapDispatchToProps)(Input);

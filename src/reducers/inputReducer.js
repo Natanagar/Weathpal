@@ -6,6 +6,8 @@ import {
   INPUT_CONVERT_START,
   INPUT_CONVERT_ERROR,
   INPUT_CONVERT_SUCCESS,
+  INPUT_CONVERT_AMOUNT_FROM,
+  INPUT_CONVERT_AMOUNT_TO,
 } from '../actions/index';
 
 const initialState = Object.freeze({
@@ -14,9 +16,7 @@ const initialState = Object.freeze({
   currencyByDate: [],
   date: null,
   ratingAll: [],
-  currency: [],
-  dateFrom: null,
-  baseCurrency: null,
+  rating: [],
 });
 // reducers for Input
 export const getDataByDate = (state = initialState, action) => {
@@ -26,6 +26,17 @@ export const getDataByDate = (state = initialState, action) => {
       return {
         ...state,
         startFetching: true,
+      };
+    case INPUT_CONVERT_AMOUNT_FROM:
+      console.log(action);
+      return {
+        ...state,
+        resultFrom: action.resultFrom,
+      };
+    case INPUT_CONVERT_AMOUNT_TO:
+      return {
+        ...state,
+        resultTo: action.resultTo,
       };
     case INPUT_FETCH_ERROR:
       return {
@@ -55,18 +66,16 @@ export const getDataByDate = (state = initialState, action) => {
         startFetching: true,
       };
     case INPUT_CONVERT_ERROR:
-      console.log(action);
       return {
         ...state,
         startFetching: false,
         error: action.payload,
       };
     case INPUT_CONVERT_SUCCESS:
-      console.log(action);
       return {
         ...state,
         startFetching: false,
-        currency: action.currency,
+        rating: action.rating,
         dateFrom: action.date,
         baseCurrency: action.baseCurrency,
 

@@ -32,6 +32,8 @@ export const INPUT_FETCH_SUCCESS = 'INPUT_FETCH_SUCCESS';
 export const INPUT_CONVERT_START = 'INPUT_CONVERT_START';
 export const INPUT_CONVERT_ERROR = 'INPUT_CONVERT_ERROR';
 export const INPUT_CONVERT_SUCCESS = 'INPUT_CONVERT_SUCCESS';
+export const INPUT_CONVERT_AMOUNT_FROM = 'INPUT_CONVERT_AMOUNT_FROM';
+export const INPUT_CONVERT_AMOUNT_TO = 'INPUT_CONVERT_AMOUNT_TO';
 
 // action creators for Input
 export const fetchCurrencyByDate = ({ currencyByDate, date, baseCurrency }) => ({
@@ -42,9 +44,9 @@ export const fetchCurrencyByDate = ({ currencyByDate, date, baseCurrency }) => (
 });
 
 // action creators for Input
-export const fetchCrossCourse = (currency, dateFrom, baseCurrency) => ({
+export const fetchCrossCourse = (rating, dateFrom, baseCurrency) => ({
   type: INPUT_CONVERT_SUCCESS,
-  currency,
+  rating,
   dateFrom,
   baseCurrency,
 });
