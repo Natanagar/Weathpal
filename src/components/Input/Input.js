@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import format from 'date-fns/format';
 import { InputAutocomplete } from '../Autocomplete/Autocomplete';
 import  { store } from '../../index';
-import { getCrossCourse, getRatingByDate, calculatingSum } from '../../actions/index';
+import { getCrossCourse, getRatingByDate, /*calculatingSum*/ } from '../../actions/index';
 import { Button } from '../Button/Button';
 import { Footer } from '../Table/Footer';
 import { Amount } from '../Autocomplete/Amount';
@@ -32,11 +32,8 @@ const Input = ({ data, currency, baseCurrency,
           () => {
             console.log(from, to)
             store.dispatch(getExchange(from, to));
-            store.dispatch(getCross(amount, from, to));
-            //store.dispatch({ type : 'INPUT_CONVERT_AMOUNT_FROM', resultFrom });
-            //store.dispatch({ type : 'INPUT_CONVERT_AMOUNT_TO', resultTo});
-            
-            
+            //store.dispatch(getCross(amount, from, to));
+                
           },
           [from, to, amount],
         )
@@ -47,6 +44,7 @@ const Input = ({ data, currency, baseCurrency,
             />)
         
     }
+   
   
     //put amount to store
     const getAmountFromInput = (amount, event, dispatch) => {
@@ -122,6 +120,6 @@ const mapStateToProps= ({ addSelectedCurrency, getDataByDate, getDataFromApi }) 
 const mapDispatchToProps = dispatch => ({
     getExchange : ()=>dispatch(getCrossCourse),
     getByDate : ()=>dispatch(getRatingByDate),
-    getCross : ()=>dispatch(calculatingSum)
+    //getCross : ()=>dispatch(calculatingSum)
   })
 export default connect(mapStateToProps, mapDispatchToProps)(Input);
