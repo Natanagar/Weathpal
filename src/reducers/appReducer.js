@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
-import { addSelectedCurrency } from './AutocompleteReducers';
-import { getDataByDate } from './inputReducer';
+import { autocompleteReducer } from './AutocompleteReducers';
+import { inputReducer } from './inputReducer';
 import { createReducer } from '../components/utils/utils';
 import {
   FETCH_CURRENCY_START,
@@ -13,35 +13,23 @@ import {
 } from '../actions/index';
 
 const initialState = Object.freeze({
-  pending: false,
   isLoading: false,
   error: null,
   items: [],
   data: [],
   baseCurrency: 'EUR',
-  exchange: {
-    from: null,
-    to: null,
-    amount: null,
-  },
 });
 // reducers for App
-const getDataFromApi = (state = initialState, action) => {
+const appReducer = (state = initialState, action) => {
   switch (action.type) {
-    case FETCH_CURRENCY_START:
+    case FETCH_CURRENCY_PENDING:
       return {
         ...state,
         isLoading: true,
       };
-    case FETCH_CURRENCY_PENDING:
-      return {
-        ...state,
-        pending: true,
-      };
     case FETCH_CURRENCY_ERROR:
       return {
         ...state,
-        pending: false,
         isLoading: true,
         error: action.error,
       };
@@ -57,14 +45,13 @@ const getDataFromApi = (state = initialState, action) => {
       return state;
   }
 };
-//
-
 
 // root reducer
 const rootReducer = combineReducers({
-  getDataFromApi,
-  addSelectedCurrency,
-  getDataByDate,
+  inputReducer,
+  autocompleteReducer,
+  appReducer,
+
 });
 
 export default rootReducer;

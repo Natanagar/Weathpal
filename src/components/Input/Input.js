@@ -3,14 +3,11 @@ import { connect } from 'react-redux';
 import format from 'date-fns/format';
 import { InputAutocomplete } from '../Autocomplete/Autocomplete';
 import  { store } from '../../index';
-import { getCrossCourse, getRatingByDate, /*calculatingSum*/ } from '../../actions/index';
+import { getCrossCourse, getRatingByDate, calculatingSum } from '../../actions/index';
 import { Button } from '../Button/Button';
 import { Footer } from '../Table/Footer';
 import { Amount } from '../Autocomplete/Amount';
 import { crossCourse, crossCourseTo } from '../utils/utils'
-
-
-
 
 
  
@@ -25,17 +22,16 @@ const Input = ({ data, currency, baseCurrency,
         e.preventDefault();
     }
     
-
     //fetching data with react-hooks (with ui)
     const CalculatingRating = ({ dispatch }) => {
-        const handleRating = useCallback(
-          () => {
+        const handleRating = useCallback(()=>{
+
             console.log(from, to)
-            store.dispatch(getExchange(from, to));
-            //store.dispatch(getCross(amount, from, to));
+            //store.dispatch(getExchange(from, to))
+            //store.dispatch(getCross(amount, from, to))
                 
           },
-          [from, to, amount],
+          [from, to],
         )
             return(
                 <Button 
@@ -102,11 +98,11 @@ const Input = ({ data, currency, baseCurrency,
         </div>
     )
 }
-const mapStateToProps= ({ addSelectedCurrency, getDataByDate, getDataFromApi }) =>{
-    const { items } = getDataFromApi;
-    const {from, to, amount } = addSelectedCurrency; 
+const mapStateToProps= ({ inputReducer, autocompleteReducer, appReducer }) =>{
+    const { items } = appReducer;
+    const {from, to, amount } = autocompleteReducer; 
     
-    const {date, currencyByDate, startFetching, resultFrom, resultTo } = getDataByDate; 
+    const {date, currencyByDate, startFetching, resultFrom, resultTo } = inputReducer; 
     return{
         items : items,
         from : from,

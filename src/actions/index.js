@@ -91,7 +91,7 @@ export const getCrossCourse = () => (dispatch) => {
   dispatch({ type: 'INPUT_CONVERT_START' });
   const api = new Api();
   const { key, endpoint } = keyData;
-  const { from, to } = store.getState().addSelectedCurrency;
+  const { from, to } = store.getState().autocompleteReducer;
   const endpointConvert = `${endpoint}latest?access_key=${key}&base=EUR&symbols=${from},${to}`;
   console.log(endpointConvert);
   api.getCrossCurrency(endpointConvert)
@@ -105,7 +105,7 @@ export const getCrossCourse = () => (dispatch) => {
 // fetching currency for fetching data as at
 export const getRatingByDate = () => (dispatch) => {
   dispatch({ type: 'INPUT_FETCH_START' });
-  const { date } = store.getState().getDataByDate;
+  const { date } = store.getState().inputReducer;
   const api = new Api();
   const endpoint = `${keyData.endpoint}${date}`;
   const { key } = keyData;

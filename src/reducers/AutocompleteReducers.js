@@ -12,11 +12,10 @@ const initialState = Object.freeze({
   to: null,
   amount: null,
   loadingExchange: false,
-  errorExchange: null,
   summ: null,
 });
 
-export const addSelectedCurrency = (state = initialState, action) => {
+export const autocompleteReducer = (state = initialState, action) => {
   switch (action.type) {
     case AUTOCOMPLETE_SELECTED_CURRENCY_FROM:
       return {

@@ -47,11 +47,11 @@ const App = ({ getCurrency, dispatch, items,
 
 // which props do we want to inject, given the global store state?
 //we observe addSelectedCurrency reducer in input
-const mapStateToProps= ({ getDataFromApi, addSelectedCurrency, getDataByDate }) =>{
+const mapStateToProps= ({ inputReducer, autocompleteReducer, appReducer, }) =>{
   
-  const{ from, to, amount } = addSelectedCurrency;
-  const { date, currencyByDate, startFetching } = getDataByDate;
-  const { data, items, baseCurrency } = getDataFromApi;
+  const{ from, to, amount } = autocompleteReducer;
+  const { date, currencyByDate, startFetching } = inputReducer;
+  const { data, items, baseCurrency } = appReducer;
   
   return{
     dateByConvert : date,

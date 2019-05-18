@@ -20,7 +20,7 @@ const initialState = Object.freeze({
   rating: [],
 });
 // reducers for Input
-export const getDataByDate = (state = initialState, action) => {
+export const inputReducer = (state = initialState, action) => {
   switch (action.type) {
     // put data to store for fetching data as at
     case INPUT_FETCH_START:
