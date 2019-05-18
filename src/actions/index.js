@@ -85,6 +85,20 @@ export const getCurrencyFromFixer = () => store.dispatch((dispatch) => {
   // store.dispatch({ type: 'INPUT_CONVERT_AMOUNT_TO', resultTo });
   return (resultFrom, resultTo); */
 // };
+/*const calculatingSum = (amount, from, to, dispatch) => {
+  console.log(store.getState().getDataByDate);
+  const { base, date, rates } = store.getState().getDataByDate.currency;
+  const arrayWithValues = Object.entries(rates).map(item => [].concat(item),);
+  console.log(Number(arrayWithValues[0][1]));
+  console.log(Number(arrayWithValues[1][1]));
+  const resultFrom = (crossCourse(arrayWithValues[0][1], arrayWithValues[1][1]) * amount);
+  const resultTo = (crossCourse(arrayWithValues[1][1], arrayWithValues[0][1]) * amount);
+  console.log(resultFrom, resultTo);
+  store.dispatch({ type: 'INPUT_CONVERT_AMOUNT_FROM', resultFrom });
+  store.dispatch({ type: 'INPUT_CONVERT_AMOUNT_TO', resultTo });
+
+  // dispatch({ type : 'INPUT_CONVERT_AMOUNT_TO', resultTo })
+}; */
 
 // fetching data if you  want convert currency from to
 export const getCrossCourse = () => (dispatch) => {

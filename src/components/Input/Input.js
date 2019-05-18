@@ -22,24 +22,19 @@ const Input = ({ data, currency, baseCurrency,
         e.preventDefault();
     }
     
-    //fetching data with react-hooks (with ui)
     const CalculatingRating = ({ dispatch }) => {
-        const handleRating = useCallback(()=>{
-
+        const handleRating = useCallback(
+          () => {
             console.log(from, to)
-            //store.dispatch(getExchange(from, to))
-            //store.dispatch(getCross(amount, from, to))
-                
+            store.dispatch(getExchange(from, to));
+            //calculatingSum(amount, from, to)
           },
           [from, to],
         )
-            return(
-                <Button 
-                onClick={handleRating(from,to)} 
-                data={"calculate"} 
-            />)
-        
     }
+
+   store.subscribe(CalculatingRating);
+
    
   
     //put amount to store
