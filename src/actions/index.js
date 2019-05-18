@@ -5,7 +5,6 @@ import Api from '../components/Api/index';
 import { keyData } from '../components/Api/Apikey';
 import { crossCourse } from '../components/utils/utils';
 
-
 // actions from App
 export const FETCH_CURRENCY_PENDING = 'FETCH_CURRENCY_PENDING';
 export const FETCH_CURRENCY_START = 'FETCH_CURRENCY_START';
@@ -39,44 +38,48 @@ export const INPUT_CONVERT_AMOUNT_START = 'INPUT_CONVERT_AMOUNT_START';
 
 // action creators for Input
 export const fetchCurrencyByDate = ({ currencyByDate, date, baseCurrency }) => ({
-  type: FETCH_CURRENCY_SUCCESS,
-  currencyByDate,
-  date,
-  baseCurrency,
+	type: FETCH_CURRENCY_SUCCESS,
+	currencyByDate,
+	date,
+	baseCurrency
 });
 
 // action creators for Input
 export const fetchCrossCourse = (rating, dateFrom, baseCurrency) => ({
-  type: INPUT_CONVERT_SUCCESS,
-  rating,
-  dateFrom,
-  baseCurrency,
+	type: INPUT_CONVERT_SUCCESS,
+	rating,
+	dateFrom,
+	baseCurrency
 });
 
 // first fetching data for App
-export const getCurrencyFromFixer = () => store.dispatch((dispatch) => {
-  dispatch({ type: 'FETCH_CURRENCY_PENDING' });
-  const api = new Api();
-  const { endpoint } = keyData;
-  const { key } = keyData;
-  api.getData(endpoint, key)
-    .then(res => dispatch({
-      type: 'FETCH_CURRENCY_SUCCESS',
-      payload: {
-        items: res.data.rates,
-        data: format(res.data.date, 'DD.MM.YYYY'),
-        baseCurrency: res.data.base,
-      },
-    }))
-    .catch(err => dispatch({ type: 'FETCH_CURRENCY_ERROR', payload: err }));
-});
+export const getCurrencyFromFixer = () =>
+	store.dispatch((dispatch) => {
+		dispatch({ type: 'FETCH_CURRENCY_PENDING' });
+		const api = new Api();
+		const { endpoint } = keyData;
+		const { key } = keyData;
+		api
+			.getData(endpoint, key)
+			.then((res) =>
+				dispatch({
+					type: 'FETCH_CURRENCY_SUCCESS',
+					payload: {
+						items: res.data.rates,
+						data: format(res.data.date, 'DD.MM.YYYY'),
+						baseCurrency: res.data.base
+					}
+				})
+			)
+			.catch((err) => dispatch({ type: 'FETCH_CURRENCY_ERROR', payload: err }));
+	});
 // calculate rate for currency
-/* export const calculatingSum = (amount, from, to) => async (dispatch) => {
-  dispatch({ type: 'INPUT_CONVERT_AMOUNT_START' });
-  console.log(store.getState().getDataByDate);
-  const { base, date, rates } = store.getState().getDataByDate.rating;
-  console.log(rates);
-  /* const arrayWithValues = Object.entries(rates).map(item => [].concat(item));
+export const calculatingSum = (amount, from, to) => async (dispatch) => {
+	dispatch({ type: 'INPUT_CONVERT_AMOUNT_START' });
+	console.log(store.getState().getDataByDate);
+	const { base, date, rates } = store.getState().getDataByDate.rating;
+	console.log(rates);
+	/* const arrayWithValues = Object.entries(rates).map(item => [].concat(item));
 
   const resultFrom = (crossCourse(arrayWithValues[0][1], arrayWithValues[1][1]) * amount);
   const resultTo = (crossCourse(arrayWithValues[1][1], arrayWithValues[0][1]) * amount);
@@ -84,8 +87,8 @@ export const getCurrencyFromFixer = () => store.dispatch((dispatch) => {
   // store.dispatch({ type: 'INPUT_CONVERT_AMOUNT_FROM', resultFrom });
   // store.dispatch({ type: 'INPUT_CONVERT_AMOUNT_TO', resultTo });
   return (resultFrom, resultTo); */
-// };
-/*const calculatingSum = (amount, from, to, dispatch) => {
+};
+/* const calculatingSum = (amount, from, to, dispatch) => {
   console.log(store.getState().getDataByDate);
   const { base, date, rates } = store.getState().getDataByDate.currency;
   const arrayWithValues = Object.entries(rates).map(item => [].concat(item),);
@@ -102,35 +105,39 @@ export const getCurrencyFromFixer = () => store.dispatch((dispatch) => {
 
 // fetching data if you  want convert currency from to
 export const getCrossCourse = () => (dispatch) => {
-  dispatch({ type: 'INPUT_CONVERT_START' });
-  const api = new Api();
-  const { key, endpoint } = keyData;
-  const { from, to } = store.getState().autocompleteReducer;
-  const endpointConvert = `${endpoint}latest?access_key=${key}&base=EUR&symbols=${from},${to}`;
-  console.log(endpointConvert);
-  api.getCrossCurrency(endpointConvert)
-    .then(res => dispatch(fetchCrossCourse(res.data)))
-    .then(res => dispatch({ type: 'INPUT_CONVERT_AMOUNT_START' }))
-    .then(resultFrom => (store.dispatch({ type: 'INPUT_CONVERT_AMOUNT_FROM', resultFrom })))
-    .then(resultTo => (store.dispatch({ type: 'INPUT_CONVERT_AMOUNT_TO', resultTo })))
-    .catch(error => dispatch({ type: 'INPUT_CONVERT_ERROR', payload: error }));
+	dispatch({ type: 'INPUT_CONVERT_START' });
+	const api = new Api();
+	const { key, endpoint } = keyData;
+	const { from, to } = store.getState().autocompleteReducer;
+	const endpointConvert = `${endpoint}latest?access_key=${key}&base=EUR&symbols=${from},${to}`;
+	console.log(endpointConvert);
+	api
+		.getCrossCurrency(endpointConvert)
+		.then((res) => dispatch(fetchCrossCourse(res.data)))
+		.then((res) => dispatch({ type: 'INPUT_CONVERT_AMOUNT_START' }))
+		.then((resultFrom) => store.dispatch({ type: 'INPUT_CONVERT_AMOUNT_FROM', resultFrom }))
+		.then((resultTo) => store.dispatch({ type: 'INPUT_CONVERT_AMOUNT_TO', resultTo }))
+		.catch((error) => dispatch({ type: 'INPUT_CONVERT_ERROR', payload: error }));
 };
 
 // fetching currency for fetching data as at
 export const getRatingByDate = () => (dispatch) => {
-  dispatch({ type: 'INPUT_FETCH_START' });
-  const { date } = store.getState().inputReducer;
-  const api = new Api();
-  const endpoint = `${keyData.endpoint}${date}`;
-  const { key } = keyData;
-  api.getCurrencyByDate(endpoint, key)
-    .then(res => dispatch({
-      type: 'INPUT_FETCH_SUCCESS',
-      payload: {
-        from: res.data.rates,
-        /* dateFrom: format(res.data.date, 'DD.MM.YYYY'),
+	dispatch({ type: 'INPUT_FETCH_START' });
+	const { date } = store.getState().inputReducer;
+	const api = new Api();
+	const endpoint = `${keyData.endpoint}${date}`;
+	const { key } = keyData;
+	api
+		.getCurrencyByDate(endpoint, key)
+		.then((res) =>
+			dispatch({
+				type: 'INPUT_FETCH_SUCCESS',
+				payload: {
+					from: res.data.rates
+					/* dateFrom: format(res.data.date, 'DD.MM.YYYY'),
         baseCurrency : res.data.base */
-      },
-    }))
-    .catch(error => dispatch({ type: 'INPUT_FETCH_ERROR', payload: error }));
+				}
+			})
+		)
+		.catch((error) => dispatch({ type: 'INPUT_FETCH_ERROR', payload: error }));
 };
