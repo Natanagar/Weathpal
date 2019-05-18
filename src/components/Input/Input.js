@@ -30,7 +30,7 @@ const Input = ({
 		e.preventDefault();
 	};
 
-	const CalculatingRating = (dispatch) => {
+	const CalculatingRating = ({ dispatch }) => {
 		const handleRating = useCallback(
 			() => {
 				console.log(from, to);
@@ -39,9 +39,8 @@ const Input = ({
 			},
 			[ from, to ]
 		);
+		return <Button onClick={handleRating(from, to)} data={'calculate'} />;
 	};
-
-	store.subscribe(CalculatingRating);
 
 	//put amount to store
 	const getAmountFromInput = (amount, event, dispatch) => {
