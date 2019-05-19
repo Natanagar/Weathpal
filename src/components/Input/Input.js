@@ -63,7 +63,7 @@ const Input = ({
 	//
 	const ratingHandleChange = (event, flag) => {
 		let ratingFrom, ratingTill;
-		if (flag) {
+		if (flag == 'true') {
 			ratingFrom = event.target.value;
 			store.dispatch({ type: 'INPUT_HISTORICAL_RATING_FROM', ratingFrom });
 		} else {
