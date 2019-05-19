@@ -25,10 +25,10 @@ const Input = ({
 	rates,
 	resultTo,
 	resultFrom,
+	tableOfRating,
 	getCross,
 	getHistorical
 }) => {
-	console.log(flag);
 	//after click need to stop propagation
 	const stopBrowser = (e) => {
 		e.preventDefault();
@@ -69,10 +69,7 @@ const Input = ({
 		} else {
 			ratingTill = event.target.value;
 			store.dispatch({ type: 'INPUT_HISTORICAL_RATING_TILL', ratingTill });
-			if (ratingTill && ratingFrom) {
-				//async action
-				getHistorical(ratingFrom, ratingTill);
-			}
+			store.dispatch(getHistorical(ratingTill, ratingFrom));
 		}
 	};
 
@@ -102,7 +99,7 @@ const Input = ({
 				to
 				amount
 			/>
-			<HistoricalRating ratingHandleChange={ratingHandleChange} flag={flag} />
+			<HistoricalRating tableOfRating={tableOfRating} ratingHandleChange={ratingHandleChange} flag={flag} />
 		</div>
 	);
 };
@@ -110,14 +107,15 @@ const mapStateToProps = ({ inputReducer, autocompleteReducer, appReducer }) => {
 	const { items } = appReducer;
 	const { from, to, amount } = autocompleteReducer;
 
-	const { date, currencyByDate, startFetching, resultFrom, resultTo } = inputReducer;
+	const { date, currencyByDate, startFetching, resultFrom, resultTo, tableOfRating } = inputReducer;
 	return {
 		items: items,
 		from: from,
 		to: to,
 		amount: amount,
 		resultFrom: resultFrom,
-		resultTo: resultTo
+		resultTo: resultTo,
+		tableOfRating: tableOfRating
 	};
 };
 const mapDispatchToProps = (dispatch) => ({

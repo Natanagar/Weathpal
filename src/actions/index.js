@@ -63,21 +63,22 @@ export const fetchCrossCourse = (rating, dateFrom, baseCurrency) => ({
 
 // first fetching data for App
 export const getCurrencyFromFixer = () => store.dispatch((dispatch) => {
-  dispatch({ type: 'FETCH_CURRENCY_PENDING' });
-  const api = new Api();
-  const { endpoint } = keyData;
-  const { key } = keyData;
-  api.getData(endpoint, key)
-    .then(res => dispatch({
-      type: 'FETCH_CURRENCY_SUCCESS',
-      payload: {
-        items: res.data.rates,
-        data: format(res.data.date, 'DD.MM.YYYY'),
-        baseCurrency: res.data.base,
-      },
-    }))
-    .catch(err => dispatch({ type: 'FETCH_CURRENCY_ERROR', payload: err }));
-});
+    dispatch({ type: 'FETCH_CURRENCY_PENDING' });
+    const api = new Api();
+    const { endpoint } = keyData;
+    const { key } = keyData;
+    api
+      .getData(endpoint, key)
+      .then(res => dispatch({
+          type: 'FETCH_CURRENCY_SUCCESS',
+          payload: {
+            items: res.data.rates,
+            data: format(res.data.date, 'DD.MM.YYYY'),
+            baseCurrency: res.data.base,
+          },
+        }),)
+      .catch(err => dispatch({ type: 'FETCH_CURRENCY_ERROR', payload: err }));
+  });
 // calculate rate for currency (middleware)
 export const calculatingSum = dispatch => (dispatch) => {
   store.dispatch({ type: 'INPUT_CONVERT_AMOUNT_START' });
@@ -85,12 +86,11 @@ export const calculatingSum = dispatch => (dispatch) => {
   const { base, date, rates } = store.getState().inputReducer.rating;
   const arrayWithValues = Object.entries(rates).map(item => [].concat(item));
 
-  const resultFrom = (crossCourse(arrayWithValues[0][1], arrayWithValues[1][1]) * amount);
-  const resultTo = (crossCourse(arrayWithValues[1][1], arrayWithValues[0][1]) * amount);
+  const resultFrom = crossCourse(arrayWithValues[0][1], arrayWithValues[1][1]) * amount;
+  const resultTo = crossCourse(arrayWithValues[1][1], arrayWithValues[0][1]) * amount;
   store.dispatch({ type: 'INPUT_CONVERT_AMOUNT_FROM', resultFrom });
   store.dispatch({ type: 'INPUT_CONVERT_AMOUNT_TO', resultTo });
 };
-
 
 // fetching data if you  want convert currency from to
 export const getCrossCourse = () => (dispatch) => {
@@ -114,13 +114,14 @@ export const getRatingByDate = () => (dispatch) => {
   const api = new Api();
   const { key } = keyData;
   const endpoint = `${keyData.nextEndpoint}${date}`;
-  api.getCurrencyByDate(endpoint, key)
+  api
+    .getCurrencyByDate(endpoint, key)
     .then(res => dispatch({
-      type: 'INPUT_FETCH_SUCCESS',
-      payload: {
-        from: res.data.rates,
-      },
-    }))
+        type: 'INPUT_FETCH_SUCCESS',
+        payload: {
+          from: res.data.rates,
+        },
+      }),)
     .catch(error => dispatch({ type: 'INPUT_FETCH_ERROR', payload: error }));
 };
 // https://api.exchangeratesapi.io/history?start_at=2018-01-01&end_at=2018-09-01&base=USD
@@ -128,10 +129,15 @@ export const getRatingByDate = () => (dispatch) => {
 export const getHistoricalRating = () => (dispatch) => {
   dispatch({ type: 'INPUT_FETCH_HISTORICAL_RATING_START' });
   const api = new Api();
-  const { ratingFrom, ratingTill } = store.getState();
+  const { ratingFrom, ratingTill } = store.getState().inputReducer;
   const endpoint = `${keyData.nextEndpoint}history?start_at=${ratingFrom}&end_at=${ratingTill}&base=USD`;
-  console.log(endpoint);
-  api.getHistoricalRating(endpoint)
-    .then(res => console.log(res.data))
-    .catch(error => console.log(error));
+  api
+    .getHistoricalRating(endpoint)
+    .then(res => store.dispatch({
+        type: 'INPUT_FETCH_HISTORICAL_RATING_SUCCESS',
+        payload: {
+          tableOfRating: res.data.rates,
+        },
+      }),)
+    .catch(error => store.dispatch({ type: 'INPUT_FETCH_HISTORICAL_RATING_ERROR', payload: error }));
 };

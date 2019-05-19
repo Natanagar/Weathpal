@@ -25,6 +25,7 @@ const initialState = Object.freeze({
   rating: [],
   ratingFrom: null,
   ratingTill: null,
+  tableOfRating: [],
 });
 // reducers for Input
 export const inputReducer = (state = initialState, action) => {
@@ -45,7 +46,6 @@ export const inputReducer = (state = initialState, action) => {
         startFetching: true,
       };
     case INPUT_CONVERT_AMOUNT_FROM:
-      console.log(action);
       return {
         ...state,
         resultFrom: action.resultFrom,
@@ -125,6 +125,22 @@ export const inputReducer = (state = initialState, action) => {
       return {
         ...state,
         ratingTill: action.ratingTill,
+      };
+    case INPUT_FETCH_HISTORICAL_RATING_START:
+      return {
+        ...state,
+        startFetching: true,
+      };
+    case INPUT_FETCH_HISTORICAL_RATING_SUCCESS:
+      return {
+        ...state,
+        startFetching: false,
+        tableOfRating: action.payload.tableOfRating,
+      };
+    case INPUT_FETCH_HISTORICAL_RATING_ERROR:
+      return {
+        ...state,
+        error: action.error,
       };
 
     default:
