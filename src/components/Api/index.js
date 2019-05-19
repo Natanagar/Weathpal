@@ -10,20 +10,20 @@ class Api {
 		this.key = key;
 		this.oldkey = oldkey;
 	}
-
+	//fetch data for first render
 	getData = async (endpoint, key) => {
 		return await axios.get(`${endpoint}/latest?access_key=${key}`);
 	};
-	// https://api.exchangeratesapi.io/latest?symbols=USD,GBP
+	// fetch data for cross-course
 	getCrossCurrency = async (endpoint) => {
 		return await axios.get(endpoint);
 	};
-
-	//http://data.fixer.io/api/2013-12-24
-	//? access_key = API_KEY
-	//& base = GBP
-	//& symbols = USD,CAD,EUR
+	//fetch rating as at
 	getCurrencyByDate = async (nextEndpoint, date) => {
+		return await axios.get(`${nextEndpoint}`);
+	};
+	//fetch historical rating of currency
+	getHistoricalRating = async (nextEndpoint) => {
 		return await axios.get(`${nextEndpoint}`);
 	};
 }

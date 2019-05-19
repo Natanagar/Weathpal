@@ -2,6 +2,7 @@ import React, { useCallback } from 'react';
 import { connect } from 'react-redux';
 import format from 'date-fns/format';
 import { InputAutocomplete } from '../Autocomplete/Autocomplete';
+import { HistoricalRating } from '../Table/RatingAsAt';
 import { store } from '../../index';
 import { getCrossCourse, getRatingByDate, calculatingSum } from '../../actions/index';
 import { Button } from '../Button/Button';
@@ -11,6 +12,7 @@ import { crossCourse, crossCourseTo } from '../utils/utils';
 
 const Input = ({
 	data,
+	flag,
 	currency,
 	baseCurrency,
 	dispatch,
@@ -25,6 +27,7 @@ const Input = ({
 	resultFrom,
 	getCross
 }) => {
+	console.log(flag);
 	//after click need to stop propagation
 	const stopBrowser = (e) => {
 		e.preventDefault();
@@ -53,8 +56,13 @@ const Input = ({
 		const date = format(event.target.value, 'YYYY-MM-DD');
 		//dispatching data from
 		store.dispatch({ type: 'INPUT_ADDED_DATE', date });
-		console.log(date);
 		store.dispatch(getByDate(date));
+	};
+
+	//
+	const ratingHandleChange = (event, value, flag) => {
+		console.log(event.target.value);
+		console.log(flag);
 	};
 
 	return (
@@ -83,6 +91,7 @@ const Input = ({
 				to
 				amount
 			/>
+			<HistoricalRating ratingHandleChange={ratingHandleChange} flag={flag} />
 		</div>
 	);
 };
@@ -103,6 +112,5 @@ const mapStateToProps = ({ inputReducer, autocompleteReducer, appReducer }) => {
 const mapDispatchToProps = (dispatch) => ({
 	getExchange: () => dispatch(getCrossCourse),
 	getByDate: () => dispatch(getRatingByDate)
-	//getCross : ()=>dispatch(calculatingSum)
 });
 export default connect(mapStateToProps, mapDispatchToProps)(Input);

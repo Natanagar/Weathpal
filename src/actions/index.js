@@ -36,6 +36,11 @@ export const INPUT_CONVERT_AMOUNT_FROM = 'INPUT_CONVERT_AMOUNT_FROM';
 export const INPUT_CONVERT_AMOUNT_TO = 'INPUT_CONVERT_AMOUNT_TO';
 export const INPUT_CONVERT_AMOUNT_START = 'INPUT_CONVERT_AMOUNT_START';
 
+// fetch rating as at
+export const INPUT_FETCH_HISTORICAL_RATING_START = 'INPUT_FETCH_HISTORICAL_RATING_START';
+export const INPUT_FETCH_HISTORICAL_RATING_SUCCESS = 'INPUT_FETCH_HISTORICAL_RATING_SUCCESS';
+export const INPUT_FETCH_HISTORICAL_RATING_ERROR = 'INPUT_FETCH_HISTORICAL_RATING_ERROR';
+
 // action creators for Input
 export const fetchCurrencyByDate = ({ currencyByDate, date, baseCurrency }) => ({
   type: FETCH_CURRENCY_SUCCESS,
@@ -73,17 +78,13 @@ export const getCurrencyFromFixer = () => store.dispatch((dispatch) => {
 export const calculatingSum = dispatch => (dispatch) => {
   store.dispatch({ type: 'INPUT_CONVERT_AMOUNT_START' });
   const { amount } = store.getState().autocompleteReducer;
-  console.log(amount);
   const { base, date, rates } = store.getState().inputReducer.rating;
-  console.log(rates);
   const arrayWithValues = Object.entries(rates).map(item => [].concat(item));
 
   const resultFrom = (crossCourse(arrayWithValues[0][1], arrayWithValues[1][1]) * amount);
   const resultTo = (crossCourse(arrayWithValues[1][1], arrayWithValues[0][1]) * amount);
-  console.log(resultTo, resultFrom);
   store.dispatch({ type: 'INPUT_CONVERT_AMOUNT_FROM', resultFrom });
   store.dispatch({ type: 'INPUT_CONVERT_AMOUNT_TO', resultTo });
-  // return (resultFrom, resultTo); */
 };
 
 
@@ -94,7 +95,6 @@ export const getCrossCourse = () => (dispatch) => {
   const { key, endpoint } = keyData;
   const { from, to } = store.getState().autocompleteReducer;
   const endpointConvert = `${endpoint}latest?access_key=${key}&base=EUR&symbols=${from},${to}`;
-  console.log(endpointConvert);
   api
     .getCrossCurrency(endpointConvert)
     .then(res => dispatch(fetchCrossCourse(res.data)))
@@ -110,8 +110,6 @@ export const getRatingByDate = () => (dispatch) => {
   const api = new Api();
   const { key } = keyData;
   const endpoint = `${keyData.nextEndpoint}${date}`;
-
-  console.log(key, endpoint);
   api.getCurrencyByDate(endpoint, key)
     .then(res => dispatch({
       type: 'INPUT_FETCH_SUCCESS',
@@ -120,4 +118,16 @@ export const getRatingByDate = () => (dispatch) => {
       },
     }))
     .catch(error => dispatch({ type: 'INPUT_FETCH_ERROR', payload: error }));
+};
+// https://api.exchangeratesapi.io/history?start_at=2018-01-01&end_at=2018-09-01&base=USD
+
+export const getHistoricalRating = () => (dispatch) => {
+  dispatch({ type: 'INPUT_FETCH_HISTORICAL_RATING_START' });
+  const api = new Api();
+  const { ratingFrom, ratingTill } = store.getState();
+  const endpoint = `${keyData.nextEndpoint}history?start_at=${ratingFrom}&end_at=${ratingTill}&base=USD`;
+  console.log(endpoint);
+  api.getHistoricalRating(endpoint)
+    .then(res => console.log(res.data))
+    .catch(error => console.log(error));
 };
