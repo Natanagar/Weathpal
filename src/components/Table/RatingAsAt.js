@@ -1,30 +1,7 @@
 import React from 'react';
+import { HistoricalTable } from './HistoricalRating';
 
 export const HistoricalRating = ({ data, ratingHandleChange, flag, tableOfRating }) => {
-	const HistoricalTable = (tableOfRating) => {
-		console.log();
-		Object.entries(tableOfRating).map((item) => console.log(item));
-		return (
-			<div>
-				<table>
-					<thead>
-						<tr>
-							<th>Date</th>
-							<th>Currency</th>
-						</tr>
-					</thead>
-					<tbody>
-						{Object.entries(tableOfRating).map((item, index) => (
-							<tr key={index}>
-								<td>{item}</td>
-								{/*<td>{Math.round(item[2] * 100) / 100}</td>*/}
-							</tr>
-						))}
-					</tbody>
-				</table>
-			</div>
-		);
-	};
 	const InputDate = ({ flag, ratingHandleChange }) => {
 		return (
 			<section>
