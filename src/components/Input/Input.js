@@ -29,7 +29,7 @@ const Input = ({
 	const stopBrowser = (e) => {
 		e.preventDefault();
 	};
-
+	//create button component with memoized callback
 	const CalculatingRating = ({ dispatch }) => {
 		const handleRating = useCallback(
 			() => {
@@ -45,8 +45,10 @@ const Input = ({
 	//put amount to store
 	const getAmountFromInput = (amount, event, dispatch) => {
 		amount = Number(amount);
+		console.log(amount);
 		store.dispatch({ type: 'AUTOCOMPLETE_SELECTED_AMOUNT', amount });
 	};
+	//adding data to Redux
 	const handleInputChange = (event, value) => {
 		const date = format(event.target.value, 'YYYY-MM-DD');
 		//dispatching data from

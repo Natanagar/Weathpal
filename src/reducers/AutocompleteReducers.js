@@ -21,38 +21,32 @@ export const autocompleteReducer = (state = initialState, action) => {
       return {
         ...state,
         from: action.to,
-
       };
     case AUTOCOMPLETE_SELECTED_CURRENCY_TO:
-
       return {
         ...state,
         to: action.to,
-
       };
     case AUTOCOMPLETE_SELECTED_AMOUNT:
+      console.log(action);
       return {
         ...state,
         amount: action.amount,
-
       };
     case AUTOCOMPLETE_EXCHANGE_FETCHING_START:
       return {
         ...state,
         loadingExchange: true,
-
       };
     case AUTOCOMPLETE_EXCHANGE_FETCHING_SUCCESS:
       return {
         ...state,
         summ: action.payload,
-
       };
     case AUTOCOMPLETE_EXCHANGE_FETCHING_ERROR:
       return {
         ...state,
         error: action.error,
-
       };
     default:
       return state;

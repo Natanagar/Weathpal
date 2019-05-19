@@ -73,6 +73,7 @@ export const getCurrencyFromFixer = () => store.dispatch((dispatch) => {
 export const calculatingSum = dispatch => (dispatch) => {
   store.dispatch({ type: 'INPUT_CONVERT_AMOUNT_START' });
   const { amount } = store.getState().autocompleteReducer;
+  console.log(amount);
   const { base, date, rates } = store.getState().inputReducer.rating;
   console.log(rates);
   const arrayWithValues = Object.entries(rates).map(item => [].concat(item));
@@ -115,8 +116,6 @@ export const getRatingByDate = () => (dispatch) => {
       type: 'INPUT_FETCH_SUCCESS',
       payload: {
         from: res.data.rates,
-        /* dateFrom: format(res.data.date, 'DD.MM.YYYY'),
-        baseCurrency : res.data.base */
       },
     }))
     .catch(error => dispatch({ type: 'INPUT_FETCH_ERROR', payload: error }));
