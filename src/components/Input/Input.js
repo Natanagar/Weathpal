@@ -4,7 +4,7 @@ import format from 'date-fns/format';
 import { InputAutocomplete } from '../Autocomplete/Autocomplete';
 import { HistoricalRating } from '../Table/RatingAsAt';
 import { store } from '../../index';
-import { getCrossCourse, getRatingByDate, calculatingSum } from '../../actions/index';
+import { getCrossCourse, getRatingByDate, calculatingSum, getHistoricalRating } from '../../actions/index';
 import { Button } from '../Button/Button';
 import { Footer } from '../Table/Footer';
 import { Amount } from '../Autocomplete/Amount';
@@ -25,7 +25,8 @@ const Input = ({
 	rates,
 	resultTo,
 	resultFrom,
-	getCross
+	getCross,
+	getHistorical
 }) => {
 	console.log(flag);
 	//after click need to stop propagation
@@ -60,9 +61,19 @@ const Input = ({
 	};
 
 	//
-	const ratingHandleChange = (event, value, flag) => {
-		console.log(event.target.value);
-		console.log(flag);
+	const ratingHandleChange = (event, flag) => {
+		let ratingFrom, ratingTill;
+		if (flag) {
+			ratingFrom = event.target.value;
+			store.dispatch({ type: 'INPUT_HISTORICAL_RATING_FROM', ratingFrom });
+		} else {
+			ratingTill = event.target.value;
+			store.dispatch({ type: 'INPUT_HISTORICAL_RATING_TILL', ratingTill });
+			if (ratingTill && ratingFrom) {
+				//async action
+				getHistorical(ratingFrom, ratingTill);
+			}
+		}
 	};
 
 	return (
@@ -111,6 +122,7 @@ const mapStateToProps = ({ inputReducer, autocompleteReducer, appReducer }) => {
 };
 const mapDispatchToProps = (dispatch) => ({
 	getExchange: () => dispatch(getCrossCourse),
-	getByDate: () => dispatch(getRatingByDate)
+	getByDate: () => dispatch(getRatingByDate),
+	getHistorical: () => dispatch(getHistoricalRating)
 });
 export default connect(mapStateToProps, mapDispatchToProps)(Input);

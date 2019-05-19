@@ -23,8 +23,8 @@ export const HistoricalRating = ({ data, ratingHandleChange, flag }) => {
 		<h4>Choosing currencies are as at</h4>
 		<form>
       <h4>Historical rating</h4>
-      <InputDate  flag defaultValue={"Currency from"} ratingHandleChange={ratingHandleChange}/>
-			<InputDate  flag={false} defaultValue={"Currency till"} ratingHandleChange={ratingHandleChange}/>
+      <InputDate  flag={'true'} defaultValue={"Currency from"} ratingHandleChange={ratingHandleChange}/>
+			<InputDate  flag={'false'} defaultValue={"Currency till"} ratingHandleChange={ratingHandleChange}/>
 			
 		</form>
 	</div>

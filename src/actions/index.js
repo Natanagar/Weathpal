@@ -41,6 +41,10 @@ export const INPUT_FETCH_HISTORICAL_RATING_START = 'INPUT_FETCH_HISTORICAL_RATIN
 export const INPUT_FETCH_HISTORICAL_RATING_SUCCESS = 'INPUT_FETCH_HISTORICAL_RATING_SUCCESS';
 export const INPUT_FETCH_HISTORICAL_RATING_ERROR = 'INPUT_FETCH_HISTORICAL_RATING_ERROR';
 
+// added date from input for historical rating
+export const INPUT_HISTORICAL_RATING_FROM = 'INPUT_HISTORICAL_RATING_FROM';
+export const INPUT_HISTORICAL_RATING_TILL = 'INPUT_HISTORICAL_RATING_TILL';
+
 // action creators for Input
 export const fetchCurrencyByDate = ({ currencyByDate, date, baseCurrency }) => ({
   type: FETCH_CURRENCY_SUCCESS,
