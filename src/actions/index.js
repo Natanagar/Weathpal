@@ -108,10 +108,11 @@ export const getRatingByDate = () => (dispatch) => {
   dispatch({ type: 'INPUT_FETCH_START' });
   const { date } = store.getState().inputReducer;
   const api = new Api();
-  const endpoint = `${keyData.endpoint}${date}`;
   const { key } = keyData;
-  api
-    .getCurrencyByDate(endpoint, key)
+  const endpoint = `${keyData.nextEndpoint}${date}`;
+
+  console.log(key, endpoint);
+  api.getCurrencyByDate(endpoint, key)
     .then(res => dispatch({
       type: 'INPUT_FETCH_SUCCESS',
       payload: {
