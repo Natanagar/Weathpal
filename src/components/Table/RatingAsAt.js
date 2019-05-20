@@ -1,4 +1,5 @@
 import React from 'react';
+import { store } from '../../index';
 import { HistoricalTable } from './HistoricalRating';
 
 export const HistoricalRating = ({ data, ratingHandleChange, flag, tableOfRating }) => {

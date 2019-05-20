@@ -1,33 +1,33 @@
-import React, { useState } from 'react';
+import React from 'react';
+import format from 'date-fns/format';
 import { store } from '../../index';
 
 export const HistoricalTable = () => {
 	const { tableOfRating } = store.getState().inputReducer;
-	const [ date, changeDate ] = useState([]);
-	const [ rating, changeRating ] = useState([]);
-	const arrayWithDate = [],
-		arrayWithRating = [];
-	Object.entries(tableOfRating).map((item) => {
-		arrayWithDate.push(item[0]);
-		arrayWithRating.push(item[1]);
-		return arrayWithDate, arrayWithRating;
-	});
-	console.log(Array.isArray(arrayWithDate), date, arrayWithRating);
+	const arr = Object.entries(tableOfRating).map((item) => [ item[0], ...Object.entries(item[1]) ]);
 
 	return (
 		<div>
 			<table>
-				<thead>
-					{Object.entries(tableOfRating).map((item, index) => (
-						<tr key={index}>
-							<th>{item[0]}</th>
-						</tr>
-					))}
-				</thead>
 				<tbody>
-					{Object.entries(tableOfRating).map((item, index) => (
-						<tr key={index}>
-							<th>{item[1]}</th>; })}
+					{arr.map(([ name, ...values ], i) => (
+						<tr key={i}>
+							{[
+								<td
+									style={{
+										fontWeight: 'bold'
+									}}
+								>
+									{format(name, 'DD.MM.YYYY')}
+								</td>,
+								...values.map(([ moneyName, value ]) => (
+									<td
+										style={{
+											fontSize: '80%'
+										}}
+									>{`${moneyName}: ${Math.round(value * 100) / 100}`}</td>
+								))
+							]}
 						</tr>
 					))}
 				</tbody>
@@ -35,18 +35,3 @@ export const HistoricalTable = () => {
 		</div>
 	);
 };
-{
-	/*<ul>
-				{Object.entries(tableOfRating).map((item, index) => (
-					<li>
-						{item.map((el) => (
-							<ul>
-								{Object.entries(el).map((elem, index) => (
-									<li key={index}>{Math.round(elem[1] * 100) / 100}</li>
-								))}
-							</ul>
-						))}
-					</li>
-				))}
-			</ul>*/
-}
