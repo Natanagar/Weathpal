@@ -16,7 +16,7 @@ export const Footer = ({ data, baseCurrency, handleInputChange, resultTo, result
 			</div>
 		);
 	};
-	const ResultTo = (resultTo, resultFrom) => {
+	const ResultTo = (resultTo) => {
 		console.log(resultTo);
 		return <div>{resultTo}</div>;
 	};
@@ -26,7 +26,7 @@ export const Footer = ({ data, baseCurrency, handleInputChange, resultTo, result
 			<h4>Figure out your request</h4>
 			<div>
 				<h5>Summ</h5>
-				<ResultFrom />
+				<div>{Math.round(resultTo * 10) / 10}</div>
 			</div>
 			<section>Currency from to {baseCurrency}</section>
 			<section>Last update {data}</section>
