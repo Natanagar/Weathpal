@@ -37,7 +37,6 @@ const Input = ({
 	const CalculatingRating = ({ dispatch }) => {
 		const handleRating = useCallback(
 			() => {
-				console.log(from, to);
 				store.dispatch(getExchange(from, to));
 				//calculatingSum(amount, from, to)
 			},
