@@ -108,13 +108,13 @@ const mapStateToProps = ({ inputReducer, autocompleteReducer, appReducer }) => {
 
 	const { date, currencyByDate, startFetching, resultFrom, resultTo, tableOfRating } = inputReducer;
 	return {
-		items: items,
-		from: from,
-		to: to,
-		amount: amount,
-		resultFrom: resultFrom,
-		resultTo: resultTo,
-		tableOfRating: tableOfRating
+		items,
+		from,
+		to,
+		amount,
+		resultFrom,
+		resultTo,
+		tableOfRating
 	};
 };
 const mapDispatchToProps = (dispatch) => ({
