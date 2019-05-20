@@ -93,11 +93,10 @@ export const calculatingSum = dispatch => (dispatch) => {
 };
 
 // fetching data if you  want convert currency from to
-export const getCrossCourse = () => (dispatch) => {
+export const getCrossCourse = (from, to) => (dispatch) => {
   dispatch({ type: 'INPUT_CONVERT_START' });
   const api = new Api();
   const { key, endpoint } = keyData;
-  const { from, to } = store.getState().autocompleteReducer;
   const endpointConvert = `${endpoint}latest?access_key=${key}&base=EUR&symbols=${from},${to}`;
   api
     .getCrossCurrency(endpointConvert)
@@ -108,7 +107,7 @@ export const getCrossCourse = () => (dispatch) => {
 };
 
 // fetching currency for fetching data as at
-export const getRatingByDate = () => (dispatch) => {
+export const getRatingByDate = date => (dispatch) => {
   dispatch({ type: 'INPUT_FETCH_START' });
   const { date } = store.getState().inputReducer;
   const api = new Api();
@@ -126,10 +125,10 @@ export const getRatingByDate = () => (dispatch) => {
 };
 // https://api.exchangeratesapi.io/history?start_at=2018-01-01&end_at=2018-09-01&base=USD
 
-export const getHistoricalRating = () => (dispatch) => {
+export const getHistoricalRating = (ratingTill, ratingFrom) => (dispatch) => {
   dispatch({ type: 'INPUT_FETCH_HISTORICAL_RATING_START' });
+  const { ratingTill, ratingFrom } = store.getState().inputReducer;
   const api = new Api();
-  const { ratingFrom, ratingTill } = store.getState().inputReducer;
   const endpoint = `${keyData.nextEndpoint}history?start_at=${ratingFrom}&end_at=${ratingTill}&base=USD`;
   api
     .getHistoricalRating(endpoint)

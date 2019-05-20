@@ -1,7 +1,6 @@
 import React from 'react';
 import { store } from '../../index';
-export const Footer = ({ data, baseCurrency, handleInputChange, resultTo, resultFrom }) => {
-	const { from, to, amount } = store.getState().autocompleteReducer;
+export const Footer = ({ data, baseCurrency, handleInputChange, resultTo, resultFrom, from, to, amount }) => {
 	//create ui with result
 	const title = `Convert ${amount} ${from} to ${to} will be ${Math.round(resultTo * 10) / 10} `;
 	const opposite = `On the other hand convert ${amount} ${to} to ${from} will be ${Math.round(resultFrom * 10) /

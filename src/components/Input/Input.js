@@ -37,8 +37,7 @@ const Input = ({
 	const CalculatingRating = ({ dispatch }) => {
 		const handleRating = useCallback(
 			() => {
-				store.dispatch(getExchange(from, to));
-				//calculatingSum(amount, from, to)
+				getExchange(from, to);
 			},
 			[ from, to ]
 		);
@@ -48,7 +47,6 @@ const Input = ({
 	//put amount to store
 	const getAmountFromInput = (amount, event, dispatch) => {
 		amount = Number(amount);
-		console.log(amount);
 		store.dispatch({ type: 'AUTOCOMPLETE_SELECTED_AMOUNT', amount });
 	};
 	//adding data to Redux
@@ -56,7 +54,7 @@ const Input = ({
 		const date = format(event.target.value, 'YYYY-MM-DD');
 		//dispatching data from
 		store.dispatch({ type: 'INPUT_ADDED_DATE', date });
-		store.dispatch(getByDate(date));
+		getByDate(date);
 	};
 
 	//
@@ -68,7 +66,7 @@ const Input = ({
 		} else {
 			ratingTill = event.target.value;
 			store.dispatch({ type: 'INPUT_HISTORICAL_RATING_TILL', ratingTill });
-			store.dispatch(getHistorical(ratingTill, ratingFrom));
+			getHistorical(ratingTill, ratingFrom);
 		}
 	};
 
@@ -94,9 +92,9 @@ const Input = ({
 				handleInputChange={handleInputChange}
 				resultFrom={resultFrom}
 				resultTo={resultTo}
-				from
-				to
-				amount
+				from={from}
+				to={to}
+				amount={amount}
 			/>
 			<HistoricalRating tableOfRating={tableOfRating} ratingHandleChange={ratingHandleChange} flag={flag} />
 		</div>
@@ -118,8 +116,8 @@ const mapStateToProps = ({ inputReducer, autocompleteReducer, appReducer }) => {
 	};
 };
 const mapDispatchToProps = (dispatch) => ({
-	getExchange: () => dispatch(getCrossCourse),
-	getByDate: () => dispatch(getRatingByDate),
-	getHistorical: () => dispatch(getHistoricalRating)
+	getExchange: (from, to) => dispatch(getCrossCourse(from, to)),
+	getByDate: (date) => dispatch(getRatingByDate(date)),
+	getHistorical: (ratingTill, ratingFrom) => dispatch(getHistoricalRating(ratingTill, ratingFrom))
 });
 export default connect(mapStateToProps, mapDispatchToProps)(Input);
