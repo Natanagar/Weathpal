@@ -1,40 +1,52 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { store } from '../../index';
 
 export const HistoricalTable = () => {
 	const { tableOfRating } = store.getState().inputReducer;
-	Object.entries(tableOfRating).map((item, index) => console.log(item[0], item[1]));
+	const [ date, changeDate ] = useState([]);
+	const [ rating, changeRating ] = useState([]);
+	const arrayWithDate = [],
+		arrayWithRating = [];
+	Object.entries(tableOfRating).map((item) => {
+		arrayWithDate.push(item[0]);
+		arrayWithRating.push(item[1]);
+		return arrayWithDate, arrayWithRating;
+	});
+	console.log(Array.isArray(arrayWithDate), date, arrayWithRating);
 
 	return (
 		<div>
-			<ul>
-				{Object.entries(tableOfRating).map((item, index) => (
-					<li>
-						{item.map((el) => (
-							<ul>
-								{Object.entries(el).map((elem, index) => <li>{Math.round(elem[1] * 100) / 100}</li>)}
-							</ul>
-						))}
-					</li>
-				))}
-			</ul>
-			{/*<table>
+			<table>
 				<thead>
-					<tr>
-						<th>Date</th>
-						<th>Currency</th>
-					</tr>
+					{Object.entries(tableOfRating).map((item, index) => (
+						<tr key={index}>
+							<th>{item[0]}</th>
+						</tr>
+					))}
 				</thead>
 				<tbody>
 					{Object.entries(tableOfRating).map((item, index) => (
 						<tr key={index}>
-							{Object.entries(item).map((el) => {
-								<th>{el[0]}</th>;
-							})}
+							<th>{item[1]}</th>; })}
 						</tr>
 					))}
 				</tbody>
-			</table>*/}
+			</table>
 		</div>
 	);
 };
+{
+	/*<ul>
+				{Object.entries(tableOfRating).map((item, index) => (
+					<li>
+						{item.map((el) => (
+							<ul>
+								{Object.entries(el).map((elem, index) => (
+									<li key={index}>{Math.round(elem[1] * 100) / 100}</li>
+								))}
+							</ul>
+						))}
+					</li>
+				))}
+			</ul>*/
+}
