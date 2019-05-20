@@ -1,34 +1,17 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { store } from '../../index';
-export const Footer = ({ data, baseCurrency, handleInputChange, resultTo, resultFrom, from, to, amount }) => {
-	console.log(resultTo, resultFrom);
-	const [ date, searchByDate ] = useState(null);
-	const title = `Convert ${amount} from ${from} to ${to}`;
-	const ResultFrom = (resultTo, resultFrom) => {
-		return (
-			<div>
-				{isNaN(from) || isNaN(to) ? (
-					<span>
-						{title} <br />
-						{resultFrom}
-					</span>
-				) : null}
-			</div>
-		);
-	};
-	const ResultTo = (resultTo) => {
-		console.log(resultTo);
-		return <div>{resultTo}</div>;
-	};
+export const Footer = ({ data, baseCurrency, handleInputChange, resultTo, resultFrom }) => {
+	const { from, to, amount } = store.getState().autocompleteReducer;
+	//create ui with result
+	const title = `Convert ${amount} ${from} to ${to} will be ${Math.round(resultTo * 10) / 10} `;
+	const opposite = `On the other hand convert ${amount} ${to} to ${from} will be ${Math.round(resultFrom * 10) /
+		10} `;
 
 	return (
 		<div>
 			<h4>Figure out your request</h4>
-			<div>
-				<h5>Summ</h5>
-				<div>{Math.round(resultTo * 10) / 10}</div>
-			</div>
-			<section>Currency from to {baseCurrency}</section>
+			<div>{amount && from && to && resultTo ? <div>{title}</div> : null}</div>
+			<div>{amount && from && to && resultFrom ? <div>{opposite}</div> : null}</div>
 			<section>Last update {data}</section>
 			<form>
 				<section>
@@ -41,7 +24,7 @@ export const Footer = ({ data, baseCurrency, handleInputChange, resultTo, result
 				<input
 					type="date"
 					id="date"
-					defaultValue={date}
+					defaultValue={data}
 					className="form-control"
 					onChange={handleInputChange}
 				/>
