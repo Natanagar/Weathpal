@@ -2,6 +2,9 @@ import React from 'react';
 import format from 'date-fns/format';
 
 export const HistoricalTable = ({ tableOfRating }) => {
+	if(tableOfRating=== null || tableOfRating===undefined){
+		return null;
+	} 
 	const arr = Object.entries(tableOfRating).map((item) => [ item[0], ...Object.entries(item[1]) ]);
 
 	return (
