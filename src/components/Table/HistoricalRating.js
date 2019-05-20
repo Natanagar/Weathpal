@@ -9,10 +9,16 @@ export const HistoricalTable = () => {
 		<div>
 			<ul>
 				{Object.entries(tableOfRating).map((item, index) => (
-					<li>{item.map((el) => <ul>{Object.entries(el).map((elem) => <span>{elem[0]}</span>)}</ul>)}</li>
+					<li>
+						{item.map((el) => (
+							<ul>
+								{Object.entries(el).map((elem, index) => <li>{Math.round(elem[1] * 100) / 100}</li>)}
+							</ul>
+						))}
+					</li>
 				))}
 			</ul>
-			<table>
+			{/*<table>
 				<thead>
 					<tr>
 						<th>Date</th>
@@ -28,7 +34,7 @@ export const HistoricalTable = () => {
 						</tr>
 					))}
 				</tbody>
-			</table>
+			</table>*/}
 		</div>
 	);
 };
