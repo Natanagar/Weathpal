@@ -12,7 +12,7 @@ import './App.css';
 const App = ({ getCurrency, dispatch, items, data, baseCurrency, amount, from, to, dateByConvert, currencyByDate }) => {
 	//useEffect as didMount
 	useEffect(() => {
-		const result = getCurrency();
+		return getCurrency();
 	}, []);
 
 	return (
