@@ -37,13 +37,13 @@ const mapStateToProps = ({ inputReducer, autocompleteReducer, appReducer }) => {
 
 	return {
 		dateByConvert: date,
-		currencyByDate: currencyByDate,
-		data: data,
-		items: items,
-		baseCurrency: baseCurrency,
-		amount: amount,
-		from: from,
-		to: to
+		currencyByDate,
+		data,
+		items,
+		baseCurrency,
+		amount,
+		from,
+		to,
 	};
 };
 

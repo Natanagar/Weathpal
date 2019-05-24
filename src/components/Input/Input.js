@@ -9,6 +9,7 @@ import { Button } from '../Button/Button';
 import { Footer } from '../Table/Footer';
 import { Amount } from '../Autocomplete/Amount';
 import { crossCourse, crossCourseTo } from '../utils/utils';
+import { wrap } from 'module';
 
 const Input = ({
 	data,
@@ -57,7 +58,7 @@ const Input = ({
 		getByDate(date);
 	};
 
-	//
+	//put data to redux
 	const ratingHandleChange = (event, flag) => {
 		let ratingFrom, ratingTill;
 		if (flag == 'true') {
@@ -82,8 +83,13 @@ const Input = ({
 				<section className="form-field-to">
 					<InputAutocomplete direction={'Convert to'} from={false} currency={currency} />
 				</section>
-				<section onClick={(e) => stopBrowser(e)}>
+				<section style={{
+					flexWrap:"nowrap",
+					margin: '20px auto',
+					maxHeight: '70px'
+				}} onClick={(e) => stopBrowser(e)}>
 					<CalculatingRating />
+					
 				</section>
 			</form>
 			<Footer
