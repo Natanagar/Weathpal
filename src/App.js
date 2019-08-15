@@ -49,7 +49,8 @@ const mapStateToProps = ({ inputReducer, autocompleteReducer, appReducer }) => {
 
 //const state = store.getState();
 const mapDispatchToProps = (dispatch) => ({
-	getCurrency: () => dispatch(getCurrencyFromFixer)
+	getCurrency: () => dispatch(getCurrencyFromFixer),
+	dispatch
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);
